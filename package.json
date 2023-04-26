@@ -9,13 +9,37 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^18.0.1",
     "expo": "~48.0.15",
+    "expo-constants": "^14.2.1",
     "expo-status-bar": "~1.4.4",
+    "formik": "^2.2.9",
     "react": "18.2.0",
-    "react-native": "0.71.7"
+    "react-dom": "18.2.0",
+    "react-native": "0.71.7",
+    "react-native-web": "~0.18.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@babel/eslint-parser": "^7.21.3",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-config-standard-jsx": "^11.0.0",
+    "eslint-config-standard-react": "^13.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "2.8.8"
   },
-  "private": true
+  "private": true,
+  "eslintConfig": {
+    "parser": "@babel/eslint-parser",
+    "extends": [
+      "standard",
+      "standard-jsx",
+      "standard-react",
+      "prettier"
+    ]
+  }
 }
