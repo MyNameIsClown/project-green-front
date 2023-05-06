@@ -1,6 +1,6 @@
 import React from 'react'
-import Main from './src/components/Main'
+import Router from './src/Router'
 
 export default function App() {
-  return <Main />
+  return <Router />
 }
