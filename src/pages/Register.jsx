@@ -19,7 +19,6 @@ export default function LogInPage({ navigation }) {
       verifyPassword: '',
       avatar: '',
       fullName: '',
-      email: '',
     },
   })
   const onSubmit = async (source) => {

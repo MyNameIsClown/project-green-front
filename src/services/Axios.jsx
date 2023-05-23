@@ -4,7 +4,7 @@ import * as Constants from '../../constants'
 import * as SecureStore from '../util/SecureStore'
 
 const axiosInstance = axios.create({
-  baseURL: Constants.URI,
+  baseURL: Constants.LOCAL_URI,
   headers: {
     // 'Accept-Language': 'es',
     Accept: 'application/json',

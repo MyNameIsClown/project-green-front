@@ -1,2 +1,3 @@
 // BACKEND
-export const URI = 'http://192.168.1.37:8090'
+export const LOCAL_URI = 'http://192.168.1.35:8090'
+export const REMOTE_URI = 'http://project-green-prod.eu-west-1.elasticbeanstalk.com'

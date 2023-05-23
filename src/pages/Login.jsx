@@ -24,6 +24,7 @@ export default function LogInPage(props) {
       console.log(status)
       if (status === 201) {
         SecureStore.save('token', data.token)
+        props.navigation.navigate('CarbonFootprintForm')
       }
       console.log(await SecureStore.getValueFor('token'))
     } catch (error) {
