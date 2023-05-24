@@ -11,16 +11,23 @@
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
     "@react-native-async-storage/async-storage": "1.17.11",
+    "@react-native-community/datetimepicker": "^7.1.0",
+    "@react-native-picker/picker": "^2.4.10",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "axios": "^1.3.6",
     "expo": "~48.0.15",
     "expo-constants": "^14.2.1",
     "expo-status-bar": "~1.4.4",
+    "moment": "^2.29.4",
     "react": "18.2.0",
+    "react-datepicker": "^4.11.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-native": "0.71.7",
+    "react-native-calendars": "^1.1298.0",
+    "react-native-date-picker": "^4.2.13",
+    "react-native-modal-datetime-picker": "^15.0.1",
     "react-native-web": "~0.18.10"
   },
   "devDependencies": {
@@ -44,6 +51,12 @@
       "standard-jsx",
       "standard-react",
       "prettier"
-    ]
+    ],
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "react/prop-types": 0
+    }
   }
 }

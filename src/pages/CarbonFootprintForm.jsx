@@ -1,41 +1,75 @@
 import React, { useRef, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native'
-import { useForm, Controller } from 'react-hook-form'
 import ButtonComponent from '../components/ButtonComponent'
-import { TransportationPage, HomeEnergyPage, FoodPage, WastePage } from './CarbonFootprintFormPages'
+import TransportationPage from './CarbonFootprintFormPages/TransportFormPage'
+import HomeEnergyPage from './CarbonFootprintFormPages/HomeEnergyFormPage'
+import FoodPage from './CarbonFootprintFormPages/FoodFormPage'
+import WastePage from './CarbonFootprintFormPages/WasteFormPage'
+import PropTypes from 'prop-types'
 
 const screenWidth = Dimensions.get('window').width
 
-const CarbonFootprintForm = () => {
+const CarbonFootprintForm = (props) => {
   const scrollViewRef = useRef(null)
   const [currentPage, setCurrentPage] = useState(0)
-  const { control, handleSubmit } = useForm()
   const totalPages = 4
+  const formData = useRef({
+    TransportationUseData: [],
+    EnergyConsumptionData: [],
+    FoodConsumptionData: [],
+    WasteProductionData: [],
+  })
 
   const handlePageSubmit = (data) => {
+    switch (currentPage) {
+      case 0:
+        formData.current.TransportationUseData = data
+        break
+      case 1:
+        formData.current.EnergyConsumptionData = data
+        break
+      case 2:
+        formData.current.FoodConsumptionData = data
+        break
+      case 3:
+        formData.current.WasteProductionData = data
+        break
+      default:
+        break
+    }
+
     if (currentPage < totalPages - 1) {
       setCurrentPage((prevPage) => prevPage + 1)
-      scrollViewRef.current?.scrollTo({ x: (currentPage + 1) * screenWidth, animated: true })
+      scrollViewRef.current?.scrollTo({
+        x: (currentPage + 1) * screenWidth,
+        animated: true,
+      })
+    } else {
+      console.log(formData.current)
+      props.navigation.navigate('InitialPage', {data: formData.current})
     }
   }
 
   const goToPreviousPage = () => {
     if (currentPage > 0) {
       setCurrentPage((prevPage) => prevPage - 1)
-      scrollViewRef.current?.scrollTo({ x: (currentPage - 1) * screenWidth, animated: true })
+      scrollViewRef.current?.scrollTo({
+        x: (currentPage - 1) * screenWidth,
+        animated: true,
+      })
     }
   }
 
   const renderPageContent = () => {
     switch (currentPage) {
       case 0:
-        return <TransportationPage control={control} />
+        return <TransportationPage onSubmit={handlePageSubmit} />
       case 1:
-        return <HomeEnergyPage control={control} />
+        return <HomeEnergyPage onSubmit={handlePageSubmit} />
       case 2:
-        return <FoodPage control={control} />
+        return <FoodPage onSubmit={handlePageSubmit} />
       case 3:
-        return <WastePage control={control} />
+        return <WastePage onSubmit={handlePageSubmit} />
       default:
         return null
     }
@@ -60,10 +94,13 @@ const CarbonFootprintForm = () => {
       </ScrollView>
       <View style={styles.buttonContainer}>
         <ButtonComponent title="Anterior" onPress={goToPreviousPage} disabled={currentPage === 0} />
-        <ButtonComponent title="Siguiente" onPress={handleSubmit(handlePageSubmit)} disabled={currentPage === totalPages - 1} />
       </View>
     </ScrollView>
   )
+}
+
+CarbonFootprintForm.propType = {
+  navigation: PropTypes.any,
 }
 
 const styles = StyleSheet.create({

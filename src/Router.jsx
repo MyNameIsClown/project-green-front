@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import { StatusBar } from 'expo-status-bar'
 import Register from './pages/Register'
 import CarbonFootprintForm from './pages/CarbonFootprintForm'
+import InitialPage from './pages/InitPage'
 
 const Stack = createNativeStackNavigator()
 
@@ -18,6 +19,7 @@ export default function Router() {
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
           <Stack.Screen name="CarbonFootprintForm" component={CarbonFootprintForm} options={{ headerShown: false }} />
+          <Stack.Screen name="InitialPage" component={InitialPage} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

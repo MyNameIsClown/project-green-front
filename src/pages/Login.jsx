@@ -21,12 +21,10 @@ export default function LogInPage(props) {
   const onSubmit = async (source) => {
     try {
       const { status, data } = await user.logIn(source).catch((error) => console.log(error))
-      console.log(status)
       if (status === 201) {
         SecureStore.save('token', data.token)
         props.navigation.navigate('CarbonFootprintForm')
       }
-      console.log(await SecureStore.getValueFor('token'))
     } catch (error) {
       console.log('err: ', error)
     }

@@ -3,7 +3,6 @@ import React from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { View, Text, StyleSheet } from 'react-native'
 import { user } from '../services/UserService'
-import * as SecureStore from '../util/SecureStore'
 import FormInput from '../components/FormInput'
 import FormButton from '../components/FormButton'
 
