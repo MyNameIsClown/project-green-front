@@ -29,7 +29,7 @@ const FoodFormPage = ({ onSubmit }) => {
     const updatedData = [...wasteProductionData]
     updatedData[index] = {
       ...updatedData[index],
-      [field]: value,
+      [field]: field === 'production' ? parseFloat(value) : value,
     }
 
     setwasteProductionData(updatedData)
@@ -68,6 +68,7 @@ const FoodFormPage = ({ onSubmit }) => {
           render={({ field }) => (
             <PickerComponent
               items={wasteStacks}
+              numeric
               selectedValue={wasteProductionData.production}
               onValueChange={(value) => handleWasteProductionChange(0, 'production', value)}
               {...field}

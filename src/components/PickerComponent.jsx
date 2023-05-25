@@ -3,15 +3,21 @@ import { View, StyleSheet } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { useTheme } from '@react-navigation/native'
 
-const PickerComponent = React.memo(({ items, selectedValue, onValueChange, enabled }) => {
+const PickerComponent = React.memo(({ items, selectedValue, onValueChange, enabled, numeric }) => {
   const { colors } = useTheme()
+  
+  const handleChangeValue = (value) => {
+    const processedValue = numeric ? parseFloat(value) : value
+    onValueChange(processedValue)
+  }
+  
 
   return (
     <View style={[styles.container, { borderColor: colors.secondary }]}>
       <Picker
         enabled={enabled}
         selectedValue={selectedValue}
-        onValueChange={onValueChange}
+        onValueChange={handleChangeValue}
         style={[styles.picker, { color: colors.text }]}
         itemStyle={{ color: colors.text }}
       >

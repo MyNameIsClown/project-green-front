@@ -69,6 +69,7 @@ const FoodFormPage = ({ onSubmit }) => {
           render={({ field }) => (
             <PickerComponent
               items={consumeStacks}
+              numeric
               selectedValue={foodConsumeData.consume}
               onValueChange={(value) => handleFoodConsumeChange(0, 'consume', value)}
               {...field}
@@ -101,6 +102,7 @@ const FoodFormPage = ({ onSubmit }) => {
           render={({ field }) => (
             <PickerComponent
               items={consumeStacks}
+              numeric
               selectedValue={foodConsumeData.consume}
               onValueChange={(value) => handleFoodConsumeChange(1, 'consume', value)}
               {...field}

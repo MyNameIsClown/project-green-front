@@ -13,6 +13,8 @@ const energyTypes = [
   { label: 'Propano', value: 'propane' },
 ]
 
+const numericFields = ['timeIntervalInDays', 'consume']
+
 const HomeEnergyPage = ({ onSubmit }) => {
   const { control } = useForm()
   const [energyConsumptionData, setEnergyConsumptionData] = useState([])
@@ -28,6 +30,10 @@ const HomeEnergyPage = ({ onSubmit }) => {
   }
 
   const handleEnergyConsumptionChange = (index, field, value) => {
+    if (numericFields.includes(field)) {
+        const numericValue = value.replace(/[^0-9.]/g, '') // Eliminar caracteres no numéricos
+        value = numericValue !== '' ? parseFloat(numericValue) : 0
+      }
     const updatedData = [...energyConsumptionData]
     updatedData[index] = {
       ...updatedData[index],

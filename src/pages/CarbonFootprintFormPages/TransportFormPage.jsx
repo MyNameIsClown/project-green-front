@@ -21,6 +21,8 @@ const vehicleTypes = [
   { label: 'Taxi', value: 'taxi' },
 ]
 
+const numericFields = ['distanceTravelInKm', 'timeIntervalInDays']
+
 const TransportationPage = ({ onSubmit }) => {
   const { control } = useForm()
   const [transportData, setTransportData] = useState([])
@@ -38,6 +40,10 @@ const TransportationPage = ({ onSubmit }) => {
   }
 
   const handleTransportChange = (index, field, value) => {
+    if (numericFields.includes(field)) {
+      const numericValue = value.replace(/[^0-9.]/g, '') // Eliminar caracteres no numéricos
+      value = numericValue !== '' ? parseFloat(numericValue) : 0
+    }
     const updatedData = [...transportData]
     updatedData[index] = {
       ...updatedData[index],
@@ -54,10 +60,8 @@ const TransportationPage = ({ onSubmit }) => {
         }
       }
     }
-
     setTransportData(updatedData)
   }
-
   const handleFormSubmit = () => {
     if (transportData.every((data) => data.transportName && data.vehicleType && data.timeIntervalInDays && data.distanceTravelInKm)) {
       onSubmit(transportData)
@@ -107,6 +111,7 @@ const TransportationPage = ({ onSubmit }) => {
             render={({ field }) => (
               <InputComponent
                 placeholder="Rango de fechas (en dias)"
+                numeric
                 value={data.timeIntervalInDays}
                 onChangeText={(value) => handleTransportChange(index, 'timeIntervalInDays', value)}
                 {...field}
@@ -122,6 +127,7 @@ const TransportationPage = ({ onSubmit }) => {
             render={({ field }) => (
               <InputComponent
                 placeholder="Distancia recorrida (km)"
+                numeric
                 value={data.distanceTravelInKm}
                 onChangeText={(value) => handleTransportChange(index, 'distanceTravelInKm', value)}
                 {...field}
@@ -141,7 +147,6 @@ const TransportationPage = ({ onSubmit }) => {
     </View>
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

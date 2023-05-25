@@ -6,6 +6,7 @@ import HomeEnergyPage from './CarbonFootprintFormPages/HomeEnergyFormPage'
 import FoodPage from './CarbonFootprintFormPages/FoodFormPage'
 import WastePage from './CarbonFootprintFormPages/WasteFormPage'
 import PropTypes from 'prop-types'
+import { carbonFootprint } from '../services/CarbonFootprintService'
 
 const screenWidth = Dimensions.get('window').width
 
@@ -14,25 +15,25 @@ const CarbonFootprintForm = (props) => {
   const [currentPage, setCurrentPage] = useState(0)
   const totalPages = 4
   const formData = useRef({
-    TransportationUseData: [],
-    EnergyConsumptionData: [],
-    FoodConsumptionData: [],
-    WasteProductionData: [],
+    transportationUseData: [],
+    energyConsumptionData: [],
+    foodConsumptionData: [],
+    wasteProductionData: [],
   })
 
-  const handlePageSubmit = (data) => {
+  const handlePageSubmit = async (data) => {
     switch (currentPage) {
       case 0:
-        formData.current.TransportationUseData = data
+        formData.current.transportationUseData = data
         break
       case 1:
-        formData.current.EnergyConsumptionData = data
+        formData.current.energyConsumptionData = data
         break
       case 2:
-        formData.current.FoodConsumptionData = data
+        formData.current.foodConsumptionData = data
         break
       case 3:
-        formData.current.WasteProductionData = data
+        formData.current.wasteProductionData = data
         break
       default:
         break
@@ -46,7 +47,9 @@ const CarbonFootprintForm = (props) => {
       })
     } else {
       console.log(formData.current)
-      props.navigation.navigate('InitialPage', {data: formData.current})
+      const { status, data } = await carbonFootprint.calculate(formData.current).catch((error) => console.log(error))
+      console.log(status, data)
+      // props.navigation.navigate('InitialPage', { data: formData.current })
     }
   }
 
