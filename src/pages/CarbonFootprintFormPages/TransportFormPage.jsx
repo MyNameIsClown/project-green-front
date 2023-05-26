@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import InputComponent from '../../components/InputComponent'
 import PickerComponent from '../../components/PickerComponent'
 import ButtonComponent from '../../components/ButtonComponent'
 import TitleComponent from '../../components/TitleComponent'
+
+const screenWidth = Dimensions.get('window').width
 
 const vehicleTypes = [
   { label: 'Gasolina', value: 'gasoline' },
@@ -23,7 +25,7 @@ const vehicleTypes = [
 
 const numericFields = ['distanceTravelInKm', 'timeIntervalInDays']
 
-const TransportationPage = ({ onSubmit }) => {
+const TransportationPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [transportData, setTransportData] = useState([])
   const [showVehicleName, setShowVehicleName] = useState(true)
@@ -74,22 +76,7 @@ const TransportationPage = ({ onSubmit }) => {
       <TitleComponent title="Emisiones por el uso de transportes" />
       {transportData.map((data, index) => (
         <View key={index} style={styles.transportCard}>
-          {!showVehicleName ? null : (
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <InputComponent
-                  placeholder="Nombre del vehículo"
-                  value={data.transportName}
-                  onChangeText={(value) => handleTransportChange(index, 'transportName', value)}
-                  {...field}
-                />
-              )}
-              name={`transportData[${index}].transportName`}
-              defaultValue=""
-            />
-          )}
+          <Text style={styles.inputTitle}>¿De que tipo de vehiculo se trata?</Text>
           <Controller
             control={control}
             rules={{ required: true }}
@@ -105,6 +92,26 @@ const TransportationPage = ({ onSubmit }) => {
             defaultValue=""
           />
 
+          {!showVehicleName ? null : (
+            <View>
+              <Text style={styles.inputTitle}>¿Con que nombre quieres guardar este medio de transporte?</Text>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <InputComponent
+                    placeholder="Nombre del vehículo"
+                    value={data.transportName}
+                    onChangeText={(value) => handleTransportChange(index, 'transportName', value)}
+                    {...field}
+                  />
+                )}
+                name={`transportData[${index}].transportName`}
+                defaultValue=""
+              />
+            </View>
+          )}
+          <Text style={styles.inputTitle}>Periodo de tiempo de consumo</Text>
           <Controller
             control={control}
             rules={{ required: true }}
@@ -120,7 +127,7 @@ const TransportationPage = ({ onSubmit }) => {
             name={`transportData[${index}].timeIntervalInDays`}
             defaultValue=""
           />
-
+          <Text style={styles.inputTitle}>Distancia total recorrida</Text>
           <Controller
             control={control}
             rules={{ required: true }}
@@ -143,7 +150,10 @@ const TransportationPage = ({ onSubmit }) => {
         </View>
       ))}
       <ButtonComponent title="Añadir Transporte" onPress={handleAddTransport} />
-      <ButtonComponent title="Siguiente" onPress={handleFormSubmit} />
+      <View style={styles.buttonContainer}>
+        <ButtonComponent title="Anterior" onPress={handleBack} disabled={currentPage === 0} />
+        <ButtonComponent title="Siguiente" onPress={handleFormSubmit} />
+      </View>
     </View>
   )
 }
@@ -151,13 +161,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   transportCard: {
     backgroundColor: '#fff',
-    padding: 16,
+    padding: 20,
     borderRadius: 8,
-    marginBottom: 16,
-    elevation: 2,
+    marginBottom: 30,
+    elevation: 4,
+    minWidth: 10,
   },
 
   removeButton: {
@@ -168,6 +181,17 @@ const styles = StyleSheet.create({
   removeButtonText: {
     color: 'red',
     fontWeight: 'bold',
+  },
+
+  inputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    fontSize: 16,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })
 

@@ -12,16 +12,21 @@ const ButtonComponent = ({ title, onPress, disabled }) => {
 
 const styles = StyleSheet.create({
   button: {
+    elevation: 8,
+    borderRadius: 10,
     backgroundColor: theme.colors.primary,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 4,
-    marginVertical: 8,
-    alignSelf: 'center',
+    minWidth: 100,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    marginBottom: 20,
+    marginRight: 10,
   },
   buttonText: {
-    fontSize: 16,
-    textTransform: 'uppercase',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: 'white',
   },
   disabledButton: {
     backgroundColor: '#CCCCCC',

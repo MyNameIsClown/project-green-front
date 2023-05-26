@@ -18,7 +18,7 @@ const wasteStacks = [
   { label: 'Muchísimos residuos (14 bolsas de basura)', value: 42 },
 ]
 
-const FoodFormPage = ({ onSubmit }) => {
+const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [wasteProductionData, setwasteProductionData] = useState([
     { wasteType: 'general', production: 0 },
@@ -110,7 +110,10 @@ const FoodFormPage = ({ onSubmit }) => {
           defaultValue=""
         />
       </View>
-      <ButtonComponent title="Enviar" onPress={handleFormSubmit} />
+      <View style={styles.buttonContainer}>
+        <ButtonComponent title="Anterior" onPress={handleBack} disabled={currentPage === 0} />
+        <ButtonComponent title="Enviar" onPress={handleFormSubmit} />
+      </View>
     </View>
   )
 }
@@ -119,6 +122,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   transportCard: {
     backgroundColor: '#fff',
@@ -126,6 +131,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 16,
     elevation: 2,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })
 

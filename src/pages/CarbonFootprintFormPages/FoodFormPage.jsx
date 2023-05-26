@@ -19,7 +19,7 @@ const consumeStacks = [
   { label: 'Diariamente (7 veces a la semana)', value: 7 },
 ]
 
-const FoodFormPage = ({ onSubmit }) => {
+const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [foodConsumeData, setfoodConsumeData] = useState([
     { foodType: 'meat', consume: 0 },
@@ -112,7 +112,10 @@ const FoodFormPage = ({ onSubmit }) => {
           defaultValue=""
         />
       </View>
-      <ButtonComponent title="Siguiente" onPress={handleFormSubmit} />
+      <View style={styles.buttonContainer}>
+        <ButtonComponent title="Anterior" onPress={handleBack} disabled={currentPage === 0} />
+        <ButtonComponent title="Siguiente" onPress={handleFormSubmit} />
+      </View>
     </View>
   )
 }
@@ -121,6 +124,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   transportCard: {
     backgroundColor: '#fff',
@@ -128,6 +133,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 16,
     elevation: 2,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })
 

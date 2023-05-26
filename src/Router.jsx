@@ -7,13 +7,14 @@ import { StatusBar } from 'expo-status-bar'
 import Register from './pages/Register'
 import CarbonFootprintForm from './pages/CarbonFootprintForm'
 import InitialPage from './pages/InitPage'
+import Constants from 'expo-constants'
 
 const Stack = createNativeStackNavigator()
 
 export default function Router() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <StatusBar backgroundColor="#FF8E00" />
+    <View style={{ marginTop: Constants.statusBarHeight, flexGrow: 1 }}>
+      <StatusBar backgroundColor="#000000" />
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
@@ -25,6 +26,10 @@ export default function Router() {
     </View>
   )
 }
+
+// const styles = StyleSheet.create({
+//   container: {},
+// })
 
 // const routes = [
 //   {

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Dimensions, SafeAreaView } from 'react-native'
 import ButtonComponent from '../components/ButtonComponent'
 import TransportationPage from './CarbonFootprintFormPages/TransportFormPage'
 import HomeEnergyPage from './CarbonFootprintFormPages/HomeEnergyFormPage'
@@ -66,39 +66,36 @@ const CarbonFootprintForm = (props) => {
   const renderPageContent = () => {
     switch (currentPage) {
       case 0:
-        return <TransportationPage onSubmit={handlePageSubmit} />
+        return <TransportationPage onSubmit={handlePageSubmit} handleBack={goToPreviousPage} currentPage={currentPage} />
       case 1:
-        return <HomeEnergyPage onSubmit={handlePageSubmit} />
+        return <HomeEnergyPage onSubmit={handlePageSubmit} handleBack={goToPreviousPage} currentPage={currentPage} />
       case 2:
-        return <FoodPage onSubmit={handlePageSubmit} />
+        return <FoodPage onSubmit={handlePageSubmit} handleBack={goToPreviousPage} currentPage={currentPage} />
       case 3:
-        return <WastePage onSubmit={handlePageSubmit} />
+        return <WastePage onSubmit={handlePageSubmit} handleBack={goToPreviousPage} currentPage={currentPage} />
       default:
         return null
     }
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Cálculo de Huella de Carbono</Text>
       <ScrollView
-        ref={scrollViewRef}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(event) => {
-          const { x } = event.nativeEvent.contentOffset
-          const page = Math.round(x / screenWidth)
-          setCurrentPage(page)
-        }}
-        contentContainerStyle={styles.scrollViewContent}
+        // ref={scrollViewRef}
+        // vertical
+        // pagingEnabled
+        showsVerticalScrollIndicator={false}
+        // onMomentumScrollEnd={(event) => {
+        //   const { x } = event.nativeEvent.contentOffset
+        //   const page = Math.round(x / screenWidth)
+        //   setCurrentPage(page)
+        // }}
+        style={styles.scrollViewContent}
       >
         <View style={styles.pageContainer}>{renderPageContent()}</View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <ButtonComponent title="Anterior" onPress={goToPreviousPage} disabled={currentPage === 0} />
-      </View>
-    </ScrollView>
+    </SafeAreaView>
   )
 }
 
@@ -108,19 +105,19 @@ CarbonFootprintForm.propType = {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 0,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 16,
+    textAlign: 'center',
+    marginTop: 20,
+    textTransform: 'uppercase',
   },
   scrollViewContent: {
-    flexGrow: 1,
-    alignItems: 'center',
+    marginHorizontal: 10,
   },
   pageContainer: {
     width: screenWidth,
@@ -129,10 +126,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    maxWidth: 300,
-    marginBottom: 16,
   },
 })
 

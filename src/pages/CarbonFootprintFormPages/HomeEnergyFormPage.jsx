@@ -15,7 +15,7 @@ const energyTypes = [
 
 const numericFields = ['timeIntervalInDays', 'consume']
 
-const HomeEnergyPage = ({ onSubmit }) => {
+const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [energyConsumptionData, setEnergyConsumptionData] = useState([])
 
@@ -31,9 +31,9 @@ const HomeEnergyPage = ({ onSubmit }) => {
 
   const handleEnergyConsumptionChange = (index, field, value) => {
     if (numericFields.includes(field)) {
-        const numericValue = value.replace(/[^0-9.]/g, '') // Eliminar caracteres no numéricos
-        value = numericValue !== '' ? parseFloat(numericValue) : 0
-      }
+      const numericValue = value.replace(/[^0-9.]/g, '') // Eliminar caracteres no numéricos
+      value = numericValue !== '' ? parseFloat(numericValue) : 0
+    }
     const updatedData = [...energyConsumptionData]
     updatedData[index] = {
       ...updatedData[index],
@@ -106,7 +106,10 @@ const HomeEnergyPage = ({ onSubmit }) => {
         </View>
       ))}
       <ButtonComponent title="Añadir Energias" onPress={handleAddEnergyConsumption} />
-      <ButtonComponent title="Siguiente" onPress={handleFormSubmit} />
+      <View style={styles.buttonContainer}>
+        <ButtonComponent title="Anterior" onPress={handleBack} disabled={currentPage === 0} />
+        <ButtonComponent title="Siguiente" onPress={handleFormSubmit} />
+      </View>
     </View>
   )
 }
@@ -115,6 +118,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   transportCard: {
     backgroundColor: '#fff',
@@ -132,6 +137,12 @@ const styles = StyleSheet.create({
   removeButtonText: {
     color: 'red',
     fontWeight: 'bold',
+  },
+
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })
 

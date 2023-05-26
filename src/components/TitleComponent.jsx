@@ -1,8 +1,15 @@
 import React from 'react'
 import { Text, StyleSheet, View } from 'react-native'
 import { theme } from '../theme'
+import { useFonts } from 'expo-font'
 
 const TitleComponent = ({ title }) => {
+  const [loaded] = useFonts({
+    BrunoAce: require('../../assets/fonts/BrunoAce-Regular.ttf'),
+  })
+  if (!loaded) {
+    return null
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title.toUpperCase()}</Text>
@@ -11,22 +18,12 @@ const TitleComponent = ({ title }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderWidth: 2,
-    width: 300,
-    borderColor: 'black',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginBottom: 16,
-    borderRadius: 20,
-    backgroundColor: theme.colors.secondary,
-  },
   title: {
     textAlign: 'center',
     textTransform: 'uppercase',
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: 'white',
+    fontSize: 20,
+    color: 'black',
+    marginBottom: 20,
   },
 })
 

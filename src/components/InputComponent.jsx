@@ -19,7 +19,7 @@ const InputComponent = React.memo(({ placeholder, numeric = false, ...rest }) =>
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
+    minHeight: 40,
     borderWidth: 1,
     borderRadius: 8,
     padding: 10,

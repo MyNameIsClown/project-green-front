@@ -6,6 +6,7 @@ import * as SecureStore from '../util/SecureStore'
 import FormInput from '../components/FormInput'
 import FormButton from '../components/FormButton'
 import PropTypes from 'prop-types'
+import { useFonts } from 'expo-font'
 
 export default function LogInPage(props) {
   const {
@@ -18,12 +19,19 @@ export default function LogInPage(props) {
       password: '',
     },
   })
+  const [loaded] = useFonts({
+    BrunoAce: require('../../assets/fonts/BrunoAce-Regular.ttf'),
+  })
+
+  if (!loaded) {
+    return null
+  }
   const onSubmit = async (source) => {
+    props.navigation.navigate('CarbonFootprintForm')
     try {
       const { status, data } = await user.logIn(source).catch((error) => console.log(error))
       if (status === 201) {
         SecureStore.save('token', data.token)
-        props.navigation.navigate('CarbonFootprintForm')
       }
     } catch (error) {
       console.log('err: ', error)
@@ -31,14 +39,19 @@ export default function LogInPage(props) {
   }
 
   return (
-    <View style={styles.container}>
-      <Image source={require('../../assets/PrimaryIcon_noBG.png')} style={styles.logo} />
+    <View style={styles.formContainer}>
+      <View style={(styles.formContainer, [{ flexDirection: 'row' }])}>
+        <Image source={require('../../assets/favicon.png')} style={styles.logo} />
+        <Text style={{ fontFamily: 'BrunoAce', fontSize: 40, textTransform: 'uppercase' }}>Coper</Text>
+      </View>
       <Controller
         control={control}
         rules={{
           required: true,
         }}
-        render={({ field: { onChange, onBlur, value } }) => <FormInput placeholder="Username" onBlur={onBlur} onChange={onChange} value={value} />}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <FormInput placeholder="Username" onBlur={onBlur} onChange={onChange} value={value} width={300} />
+        )}
         name="username"
       />
       {errors.username && <Text>This is required.</Text>}
@@ -49,19 +62,35 @@ export default function LogInPage(props) {
           required: true,
           maxLength: 100,
         }}
-        render={({ field: { onChange, onBlur, value } }) => <FormInput placeholder="Password" onBlur={onBlur} onChange={onChange} value={value} />}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <FormInput placeholder="Password" onBlur={onBlur} onChange={onChange} value={value} width={300} password />
+        )}
         name="password"
       />
 
       <FormButton title="Login" handleSubmit={handleSubmit(onSubmit)} primary />
-      <FormButton
-        title="Register"
-        handleSubmit={() => {
-          // eslint-disable-next-line react/prop-types
-          props.navigation.navigate('Register')
-        }}
-        secondary
-      />
+      <Text>
+        Already have an account?{' '}
+        <Text
+          style={{ fontWeight: 'bold', paddingTop: 20, textDecorationLine: 'underline', textAlign: 'left' }}
+          onPress={() => {
+            props.navigation.navigate('Register')
+          }}
+        >
+          Register
+        </Text>
+      </Text>
+      <Text>
+        By singing up, I agree to Coper's{' '}
+        <Text
+          style={{ fontWeight: 'bold', marginTop: 20, textDecorationLine: 'underline' }}
+          onPress={() => {
+            props.navigation.navigate('Register')
+          }}
+        >
+          terms & conditions
+        </Text>
+      </Text>
     </View>
   )
 }
@@ -70,13 +99,13 @@ LogInPage.propType = {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
+  formContainer: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 50,
+    height: 50,
   },
 })
