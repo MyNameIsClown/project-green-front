@@ -11,7 +11,7 @@ const InputComponent = React.memo(({ placeholder, numeric = false, ...rest }) =>
       placeholder={placeholder}
       placeholderTextColor={colors.text}
       keyboardType={numeric ? 'numeric' : 'default'}
-      value={rest.value} // Convertir el valor numérico a cadena de texto
+      value={rest.value}
       {...rest}
     />
   )

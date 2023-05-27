@@ -49,7 +49,9 @@ const CarbonFootprintForm = (props) => {
       console.log(formData.current)
       const { status, data } = await carbonFootprint.calculate(formData.current).catch((error) => console.log(error))
       console.log(status, data)
-      // props.navigation.navigate('InitialPage', { data: formData.current })
+      if (status === 200) {
+        props.navigation.navigate('InitialPage', { data })
+      }
     }
   }
 

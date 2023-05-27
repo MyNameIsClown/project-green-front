@@ -6,8 +6,6 @@ import PickerComponent from '../../components/PickerComponent'
 import ButtonComponent from '../../components/ButtonComponent'
 import TitleComponent from '../../components/TitleComponent'
 
-const screenWidth = Dimensions.get('window').width
-
 const vehicleTypes = [
   { label: 'Gasolina', value: 'gasoline' },
   { label: 'Diesel', value: 'diesel' },
@@ -65,7 +63,7 @@ const TransportationPage = ({ onSubmit, handleBack, currentPage }) => {
     setTransportData(updatedData)
   }
   const handleFormSubmit = () => {
-    if (transportData.every((data) => data.transportName && data.vehicleType && data.timeIntervalInDays && data.distanceTravelInKm)) {
+    if (transportData.every((data) => data.transportName && data.vehicleType)) {
       onSubmit(transportData)
     } else {
       // Mostrar mensaje de error o realizar otra acción en caso de que algún campo esté vacío

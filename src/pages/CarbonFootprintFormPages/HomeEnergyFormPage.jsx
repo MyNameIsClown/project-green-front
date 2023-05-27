@@ -44,7 +44,7 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
   }
 
   const handleFormSubmit = () => {
-    if (energyConsumptionData.every((data) => data.energyType && data.timeIntervalInDays && data.consume)) {
+    if (energyConsumptionData.every((data) => data.energyType)) {
       onSubmit(energyConsumptionData)
     } else {
       // Mostrar mensaje de error o realizar otra acción en caso de que algún campo esté vacío

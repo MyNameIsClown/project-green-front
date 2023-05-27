@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const InitialPage = () => {
+const InitialPage = ({ data }) => {
   return (
     <View>
-      <Text>Pagina inicial</Text>
+      <Text>Response: {data}</Text>
     </View>
   )
 }
