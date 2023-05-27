@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native'
 import { user } from '../services/UserService'
+import { carbonFootprint } from '../services/CarbonFootprintService'
 import * as SecureStore from '../util/SecureStore'
 import FormInput from '../components/FormInput'
 import FormButton from '../components/FormButton'
@@ -34,7 +35,16 @@ export default function LogInPage(props) {
       const { status, data } = await user.logIn(source)
       if (status === 201) {
         SecureStore.save('token', data.token)
-        props.navigation.navigate('CarbonFootprintForm')
+        console.log(data)
+        if (data.carbonFootprintIsCalculated) {
+          const { status, data } = await carbonFootprint.getHomePageInfo()
+          if (status === 200) {
+            console.log(data)
+            props.navigation.navigate('HomePage', { calculationData: data })
+          }
+        } else {
+          props.navigation.navigate('CarbonFootprintForm')
+        }
       }
     } catch (error) {
       console.log(error)
