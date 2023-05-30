@@ -28,21 +28,12 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   buttonPrimary: {
-    marginTop: 20,
+    marginVertical: 20,
     elevation: 8,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
     backgroundColor: theme.colors.primary,
-    minWidth: 200,
-  },
-  buttonSecondary: {
-    marginTop: 20,
-    elevation: 8,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    backgroundColor: theme.colors.secondary,
     minWidth: 200,
   },
 })
