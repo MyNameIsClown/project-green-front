@@ -11,6 +11,7 @@ import { useFonts } from 'expo-font'
 import alert from '../components/AlertComponent'
 import { theme } from '../theme'
 
+/* LOGIN */
 export default function LogInPage(props) {
   const {
     control,
