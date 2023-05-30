@@ -11,7 +11,7 @@ const TitleComponent = ({ title }) => {
     return null
   }
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>{title.toUpperCase()}</Text>
     </View>
   )
