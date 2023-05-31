@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, Dimensions, SafeAreaView } from 'react-native'
-import ButtonComponent from '../components/ButtonComponent'
 import TransportationPage from './CarbonFootprintFormPages/TransportFormPage'
 import HomeEnergyPage from './CarbonFootprintFormPages/HomeEnergyFormPage'
 import FoodPage from './CarbonFootprintFormPages/FoodFormPage'
@@ -50,7 +49,7 @@ const CarbonFootprintForm = (props) => {
       const { status, data } = await carbonFootprint.calculate(formData.current).catch((error) => console.log(error))
       console.log(status, data)
       if (status === 200) {
-        props.navigation.navigate('HomePage', { calculationData: data })
+        props.navigation.navigate('HomePaginator', { data: data })
       }
     }
   }

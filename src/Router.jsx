@@ -7,7 +7,8 @@ import { StatusBar } from 'expo-status-bar'
 import Register from './pages/Register'
 import CarbonFootprintForm from './pages/CarbonFootprintForm'
 import Constants from 'expo-constants'
-import HomePage from './pages/HomePage'
+import HomePage from './pages/Home/Pages/HomePage'
+import { Paginator } from './pages/Home/PaginatorRedirect'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,6 +22,7 @@ export default function Router() {
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
           <Stack.Screen name="CarbonFootprintForm" component={CarbonFootprintForm} options={{ headerShown: false }} />
           <Stack.Screen name="HomePage" component={HomePage} options={{ headerShown: false }} />
+          <Stack.Screen name="HomePaginator" component={Paginator} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
