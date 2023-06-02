@@ -5,7 +5,7 @@ import { WebHomePaginator } from './WebHomePaginator'
 
 const isWeb = Platform.OS === 'web'
 
-export const Paginator = ({ route }) => {
+export const Paginator = ({ route, navigation }) => {
   const { data } = route.params
-  return isWeb ? <WebHomePaginator data={data} /> : <MobileHomePaginator data={data} />
+  return isWeb ? <WebHomePaginator data={data} navigation={navigation} /> : <MobileHomePaginator data={data} navigation={navigation} />
 }

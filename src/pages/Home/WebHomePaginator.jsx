@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Header, Button } from '@rneui/base'
 import HomePage from './Pages/HomePage'
 import { CommunityPage } from './Pages/CommunityPage'
 import { UserConfigPage } from './Pages/UserConfigPage'
 import { theme } from '../../theme'
 
-export const WebHomePaginator = ({ data }) => {
+export const WebHomePaginator = ({ data, navigation }) => {
   const [index, setIndex] = useState(0)
   const { user, totalCo2Emitted, totalGreenScore } = data
   const carbonFootprintData = { totalCo2Emitted, totalGreenScore }
@@ -18,7 +18,7 @@ export const WebHomePaginator = ({ data }) => {
   const renderPage = () => {
     switch (index) {
       case 0:
-        return <HomePage data={carbonFootprintData} />
+        return <HomePage data={carbonFootprintData} navigation={navigation} />
       case 1:
         return <CommunityPage data={data} />
       case 2:
@@ -29,7 +29,7 @@ export const WebHomePaginator = ({ data }) => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Header
         leftComponent={{ text: 'Home', style: { color: '#fff', fontSize: 20, fontWeight: 'bold' } }}
         containerStyle={{ backgroundColor: theme.colors.primary }}
@@ -41,8 +41,17 @@ export const WebHomePaginator = ({ data }) => {
           </View>
         }
       />
-      <View>{renderPage()}</View>
+      <View style={styles.pageContainer}>{renderPage()}</View>
       <View />
     </View>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  pageContainer: {
+    flex: 1,
+    backgroundColor: '#EEEEEE',
+  },
+})
