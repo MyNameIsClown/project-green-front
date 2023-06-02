@@ -1,10 +1,22 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
 export const CommunityPage = () => {
   return (
-    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontWeight: 'bold', textAlign: 'center', fontSize: 30 }}>En desarollo...</Text>
+    <View style={styles.container}>
+      <Text style={styles.textStyle}>En desarollo...</Text>
     </View>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  textStyle: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 30,
+  },
+})
