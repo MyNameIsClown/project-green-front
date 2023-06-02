@@ -6,20 +6,20 @@ import { theme } from '../../theme'
 import { CommunityPage } from './Pages/CommunityPage'
 import { UserConfigPage } from './Pages/UserConfigPage'
 
-export const MobileHomePaginator = ({ data }) => {
+export const MobileHomePaginator = ({ data, navigation }) => {
   const [index, setIndex] = React.useState(0)
   const { user, totalCo2Emitted, totalGreenScore } = data
   const carbonFootprintData = { totalCo2Emitted, totalGreenScore }
   return (
     <>
-      <TabView value={index} onChange={setIndex} animationType="spring">
-        <TabView.Item>
-          <HomePage data={carbonFootprintData} />
+      <TabView value={index} onChange={setIndex} animationType="timing" disableTransition containerStyle={styles.container}>
+        <TabView.Item style={styles.pageContainer}>
+          <HomePage data={carbonFootprintData} navigation={navigation} />
         </TabView.Item>
-        <TabView.Item>
+        <TabView.Item style={styles.pageContainer}>
           <CommunityPage />
         </TabView.Item>
-        <TabView.Item>
+        <TabView.Item style={styles.pageContainer}>
           <UserConfigPage data={user} />
         </TabView.Item>
       </TabView>
@@ -35,15 +35,25 @@ export const MobileHomePaginator = ({ data }) => {
           backgroundColor: theme.colors.primary,
         }}
       >
-        <Tab.Item title="Home" titleStyle={styles.titleStyle} icon={{ name: 'timer', type: 'ionicon', color: 'white' }} />
-        <Tab.Item title="Community" titleStyle={styles.titleStyle} icon={{ name: 'heart', type: 'ionicon', color: 'white' }} />
-        <Tab.Item title="Profile" titleStyle={styles.titleStyle} icon={{ name: 'cart', type: 'ionicon', color: 'white' }} />
+        <Tab.Item title="Home" titleStyle={styles.titleStyle} icon={{ name: 'home', type: 'ionicon', color: 'white' }} />
+        <Tab.Item title="Community" titleStyle={styles.titleStyle} icon={{ name: 'people-circle-outline', type: 'ionicon', color: 'white' }} />
+        <Tab.Item title="Profile" titleStyle={styles.titleStyle} icon={{ name: 'person-circle-outline', type: 'ionicon', color: 'white' }} />
       </Tab>
     </>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  pageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#EEEEEE',
+  },
   titleStyle: {
     fontSize: 12,
     color: 'white',
