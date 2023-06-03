@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Pressable, Text } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import PickerComponent from '../../components/PickerComponent'
 import ButtonComponent from '../../components/ButtonComponent'
 import TitleComponent from '../../components/TitleComponent'
+import { FoodCalcInfo } from '../CarbonFootprintIntroductionCalc'
+import { theme } from '../../theme'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 const foodTypes = [
   { label: 'Carne', value: 'meat' },
@@ -19,15 +22,23 @@ const consumeStacks = [
   { label: 'Diariamente (7 veces a la semana)', value: 7 },
 ]
 
+const weeksInAYear = 48
+
 const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [foodConsumeData, setfoodConsumeData] = useState([
     { foodType: 'meat', consume: 0 },
     { foodType: 'milk', consume: 0 },
   ])
+  const [showInfo, setShowInfo] = useState(false)
 
   const handleFoodConsumeChange = (index, field, value) => {
     const updatedData = [...foodConsumeData]
+
+    if (field === 'consume') {
+      value = value * weeksInAYear
+    }
+
     updatedData[index] = {
       ...updatedData[index],
       [field]: value,
@@ -37,15 +48,20 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
   }
 
   const handleFormSubmit = () => {
-    if (foodConsumeData.every((data) => data.foodType && data.consume)) {
-      onSubmit(foodConsumeData)
-    } else {
-      // Mostrar mensaje de error o realizar otra acción en caso de que algún campo esté vacío
-    }
+    onSubmit(foodConsumeData)
+  }
+  const handleInfoContainer = () => {
+    showInfo ? setShowInfo(false) : setShowInfo(true)
   }
   return (
     <View style={styles.container}>
-      <TitleComponent title="Emisiones por el consumo de productos de la alimentacion" />
+      <View style={styles.headerContainer}>
+        <TitleComponent title="Emisiones por el consumo de productos de la alimentacion" />
+        <Pressable onPress={() => handleInfoContainer()} style={{ marginLeft: 15 }}>
+          <FontAwesome name="info-circle" color={theme.colors.primary} size={30} />
+        </Pressable>
+      </View>
+      {showInfo && <FoodCalcInfo />}
       <View key={0} style={styles.transportCard}>
         <Controller
           control={control}
@@ -62,7 +78,7 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
           name={`foodConsumeData[${0}].foodType`}
           defaultValue=""
         />
-
+        <Text style={styles.inputTitle}>¿Cuanta carne sueles consumir a la semana?</Text>
         <Controller
           control={control}
           rules={{ required: true }}
@@ -95,7 +111,7 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
           name={`foodConsumeData[${1}].foodType`}
           defaultValue=""
         />
-
+        <Text style={styles.inputTitle}>¿Cuanta leche sueles consumir a la semana?</Text>
         <Controller
           control={control}
           rules={{ required: true }}
@@ -138,6 +154,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    fontSize: 16,
   },
 })
 

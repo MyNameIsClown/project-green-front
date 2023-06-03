@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity, Pressable } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import InputComponent from '../../components/InputComponent'
 import PickerComponent from '../../components/PickerComponent'
 import ButtonComponent from '../../components/ButtonComponent'
 import TitleComponent from '../../components/TitleComponent'
+import { EnergyCalcInfo } from '../CarbonFootprintIntroductionCalc'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { theme } from '../../theme'
 
 const energyTypes = [
   { label: 'Corriente electrica', value: 'electricity' },
@@ -18,9 +21,10 @@ const numericFields = ['timeIntervalInDays', 'consume']
 const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [energyConsumptionData, setEnergyConsumptionData] = useState([])
+  const [showInfo, setShowInfo] = useState(false)
 
   const handleAddEnergyConsumption = () => {
-    setEnergyConsumptionData([...energyConsumptionData, { energyType: 'electricity', timeIntervalInDays: 0, consume: 0 }])
+    setEnergyConsumptionData([...energyConsumptionData, { energyType: 'electricity', consume: 0 }])
   }
 
   const handleRemoveEnergyConsumption = (index) => {
@@ -35,6 +39,11 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
       value = numericValue !== '' ? parseFloat(numericValue) : 0
     }
     const updatedData = [...energyConsumptionData]
+
+    if (field === 'consume') {
+      value = value * 12
+    }
+
     updatedData[index] = {
       ...updatedData[index],
       [field]: value,
@@ -44,17 +53,27 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
   }
 
   const handleFormSubmit = () => {
-    if (energyConsumptionData.every((data) => data.energyType)) {
+    if (energyConsumptionData.every((data) => data.energyType && data.consume)) {
       onSubmit(energyConsumptionData)
     } else {
       // Mostrar mensaje de error o realizar otra acción en caso de que algún campo esté vacío
     }
   }
+  const handleInfoContainer = () => {
+    showInfo ? setShowInfo(false) : setShowInfo(true)
+  }
   return (
     <View style={styles.container}>
-      <TitleComponent title="Emisiones por el consumo energetico" />
+      <View style={styles.headerContainer}>
+        <TitleComponent title="Emisiones por el consumo energetico" />
+        <Pressable onPress={() => handleInfoContainer()} style={{ marginLeft: 15 }}>
+          <FontAwesome name="info-circle" color={theme.colors.primary} size={30} />
+        </Pressable>
+      </View>
+      {showInfo && <EnergyCalcInfo />}
       {energyConsumptionData.map((data, index) => (
         <View key={index} style={styles.transportCard}>
+          <Text style={styles.inputTitle}>¿De que tipo de energia se trata?</Text>
           <Controller
             control={control}
             rules={{ required: true }}
@@ -69,22 +88,7 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
             name={`energyConsumptionData[${index}].energyType`}
             defaultValue=""
           />
-
-          <Controller
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <InputComponent
-                placeholder="Rango de fechas (en dias)"
-                value={data.timeIntervalInDays}
-                onChangeText={(value) => handleEnergyConsumptionChange(index, 'timeIntervalInDays', value)}
-                {...field}
-              />
-            )}
-            name={`energyConsumptionData[${index}].timeIntervalInDays`}
-            defaultValue=""
-          />
-
+          <Text style={styles.inputTitle}>¿Que consumo medio tienes al mes?</Text>
           <Controller
             control={control}
             rules={{ required: true }}
@@ -143,6 +147,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    fontSize: 16,
   },
 })
 
