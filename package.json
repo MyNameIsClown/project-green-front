@@ -1,6 +1,6 @@
 {
   "name": "project-green-front",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "node_modules/expo/AppEntry.js",
   "rnpm": {
     "assets": [

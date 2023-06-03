@@ -13,9 +13,8 @@ const HomePage = ({ data, navigation }) => {
 
   totalCo2Emitted = totalCo2Emitted.toFixed(2)
 
-  const maxco2Emitted = 1000 // Valor máximo posible para el Green Score
-  const maxScore = 7000 // Valor máximo posible para el Green Score
-  const greenScorePercentage = (totalGreenScore / maxScore) * 100 // Porcentaje del Green Score
+  const maxco2Emitted = 20000 // Valor máximo posible para el Green Score
+  const greenScorePercentage = totalGreenScore // Porcentaje del Green Score
   const co2EmittedPercentage = (totalCo2Emitted / maxco2Emitted) * 100 // Porcentaje del CO2 Emitted
 
   const handleCalculation = () => {
