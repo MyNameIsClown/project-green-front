@@ -45,12 +45,12 @@ const CarbonFootprintForm = (props) => {
         animated: true,
       })
     } else {
-      console.log(formData.current)
-      // const { status, data } = await carbonFootprint.calculate(formData.current).catch((error) => console.log(error))
-      // console.log(status, data)
-      // if (status === 200) {
-      //   props.navigation.navigate('HomePaginator', { data: data })
-      // }
+      // console.log(formData.current)
+      const { status, data } = await carbonFootprint.calculate(formData.current).catch((error) => console.log(error))
+      console.log(status, data)
+      if (status === 200) {
+        props.navigation.navigate('HomePaginator', { data: data })
+      }
     }
   }
 

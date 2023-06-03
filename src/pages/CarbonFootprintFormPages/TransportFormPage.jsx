@@ -113,13 +113,12 @@ const TransportationPage = ({ onSubmit, handleBack, currentPage }) => {
   const handleFormSubmit = () => {
     if (transportData.every((data) => data.transportName && data.vehicleType && data.distanceTravelInKm)) {
       onSubmit(transportData)
-      //console.log(transportData)
     } else {
       // Mostrar mensaje de error o realizar otra acción en caso de que algún campo esté vacío
     }
   }
   const handleInfoContainer = () => {
-    showInfo ? setShowInfo(false) : setShowInfo(true)
+    setShowInfo(!showInfo)
   }
   return (
     <View style={styles.container}>
@@ -145,7 +144,6 @@ const TransportationPage = ({ onSubmit, handleBack, currentPage }) => {
               />
             )}
             name={`transportData[${index}].vehicleType`}
-            defaultValue=""
           />
 
           {(showVehicleName[index] || showVehicleName[index] === undefined) && (
@@ -163,7 +161,6 @@ const TransportationPage = ({ onSubmit, handleBack, currentPage }) => {
                   />
                 )}
                 name={`transportData[${index}].transportName`}
-                defaultValue=""
               />
             </View>
           )}
@@ -181,7 +178,6 @@ const TransportationPage = ({ onSubmit, handleBack, currentPage }) => {
               />
             )}
             name={`transportData[${index}].distanceTravelInKm`}
-            defaultValue=""
           />
           {/* Agrega un botón de eliminar */}
           <TouchableOpacity onPress={() => handleRemoveTransport(index)} style={styles.removeButton}>
