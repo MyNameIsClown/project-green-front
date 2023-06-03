@@ -45,7 +45,7 @@ export default function LogInPage(props) {
             props.navigation.navigate('HomePaginator', { data: data })
           }
         } else {
-          props.navigation.navigate('CarbonFootprintForm')
+          props.navigation.navigate('CalculationIntro')
         }
       }
     } catch (error) {

@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Pressable, Text } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import PickerComponent from '../../components/PickerComponent'
 import ButtonComponent from '../../components/ButtonComponent'
 import TitleComponent from '../../components/TitleComponent'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import { theme } from '../../theme'
+import { WasteCalcInfo } from '../CarbonFootprintIntroductionCalc'
 
 const wasteTypes = [
   { label: 'Residuos generales', value: 'general' },
@@ -18,15 +21,23 @@ const wasteStacks = [
   { label: 'Muchísimos residuos (14 bolsas de basura)', value: 42 },
 ]
 
+const weeksInAYear = 48
+
 const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [wasteProductionData, setwasteProductionData] = useState([
     { wasteType: 'general', production: 0 },
     { wasteType: 'recycled', production: 0 },
   ])
+  const [showInfo, setShowInfo] = useState(false)
 
   const handleWasteProductionChange = (index, field, value) => {
     const updatedData = [...wasteProductionData]
+
+    if (field === 'production') {
+      value = value * weeksInAYear
+    }
+
     updatedData[index] = {
       ...updatedData[index],
       [field]: field === 'production' ? parseFloat(value) : value,
@@ -36,15 +47,20 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
   }
 
   const handleFormSubmit = () => {
-    if (wasteProductionData.every((data) => data.wasteType && data.production)) {
-      onSubmit(wasteProductionData)
-    } else {
-      // Mostrar mensaje de error o realizar otra acción en caso de que algún campo esté vacío
-    }
+    onSubmit(wasteProductionData)
+  }
+  const handleInfoContainer = () => {
+    showInfo ? setShowInfo(false) : setShowInfo(true)
   }
   return (
     <View style={styles.container}>
-      <TitleComponent title="Emisiones por la produccion de residuos" />
+      <View style={styles.headerContainer}>
+        <TitleComponent title="Emisiones por la produccion de residuos" />
+        <Pressable onPress={() => handleInfoContainer()} style={{ marginLeft: 15 }}>
+          <FontAwesome name="info-circle" color={theme.colors.primary} size={30} />
+        </Pressable>
+      </View>
+      {showInfo && <WasteCalcInfo />}
       <View key={0} style={styles.transportCard}>
         <Controller
           control={control}
@@ -61,7 +77,7 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
           name={`wasteProductionData[${0}].wasteType`}
           defaultValue=""
         />
-
+        <Text style={styles.inputTitle}>¿Cuantas bolsas de basura sueles producir a la semana?</Text>
         <Controller
           control={control}
           rules={{ required: true }}
@@ -94,7 +110,7 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
           name={`wasteProductionData[${1}].wasteType`}
           defaultValue=""
         />
-
+        <Text style={styles.inputTitle}>¿Cuantos residuos reciclados sueles producir a la semana?</Text>
         <Controller
           control={control}
           rules={{ required: true }}
@@ -136,6 +152,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  inputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    fontSize: 16,
   },
 })
 
