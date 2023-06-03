@@ -60,7 +60,7 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
     }
   }
   const handleInfoContainer = () => {
-    showInfo ? setShowInfo(false) : setShowInfo(true)
+    setShowInfo(!showInfo)
   }
   return (
     <View style={styles.container}>
@@ -86,7 +86,6 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
               />
             )}
             name={`energyConsumptionData[${index}].energyType`}
-            defaultValue=""
           />
           <Text style={styles.inputTitle}>¿Que consumo medio tienes al mes?</Text>
           <Controller
@@ -101,7 +100,6 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
               />
             )}
             name={`energyConsumptionData[${index}].consume`}
-            defaultValue=""
           />
           {/* Agrega un botón de eliminar */}
           <TouchableOpacity onPress={() => handleRemoveEnergyConsumption(index)} style={styles.removeButton}>
