@@ -5,6 +5,7 @@ import HomePage from './Pages/HomePage'
 import { CommunityPage } from './Pages/CommunityPage'
 import { UserConfigPage } from './Pages/UserConfigPage'
 import { theme } from '../../theme'
+import HistoryPage from './Pages/HistoryPage'
 
 export const WebHomePaginator = ({ data, navigation }) => {
   const [index, setIndex] = useState(0)
@@ -20,8 +21,10 @@ export const WebHomePaginator = ({ data, navigation }) => {
       case 0:
         return <HomePage data={carbonFootprintData} navigation={navigation} />
       case 1:
-        return <CommunityPage data={data} />
+        return <HistoryPage />
       case 2:
+        return <CommunityPage data={data} />
+      case 3:
         return <UserConfigPage data={user} />
       default:
         return null
@@ -36,8 +39,9 @@ export const WebHomePaginator = ({ data, navigation }) => {
         rightComponent={
           <View style={{ flexDirection: 'row' }}>
             <Button title="Home" type="clear" titleStyle={{ color: '#fff' }} onPress={() => goToPage(0)} />
-            <Button title="Community" type="clear" titleStyle={{ color: '#fff' }} onPress={() => goToPage(1)} />
-            <Button title="Profile" type="clear" titleStyle={{ color: '#fff' }} onPress={() => goToPage(2)} />
+            <Button title="History" type="clear" titleStyle={{ color: '#fff' }} onPress={() => goToPage(1)} />
+            <Button title="Community" type="clear" titleStyle={{ color: '#fff' }} onPress={() => goToPage(2)} />
+            <Button title="Profile" type="clear" titleStyle={{ color: '#fff' }} onPress={() => goToPage(3)} />
           </View>
         }
       />
