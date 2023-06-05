@@ -5,6 +5,7 @@ import HomePage from './Pages/HomePage'
 import { theme } from '../../theme'
 import { CommunityPage } from './Pages/CommunityPage'
 import { UserConfigPage } from './Pages/UserConfigPage'
+import HistoryPage from './Pages/HistoryPage'
 
 export const MobileHomePaginator = ({ data, navigation }) => {
   const [index, setIndex] = React.useState(0)
@@ -15,6 +16,9 @@ export const MobileHomePaginator = ({ data, navigation }) => {
       <TabView value={index} onChange={setIndex} animationType="timing" disableTransition containerStyle={styles.container}>
         <TabView.Item style={styles.pageContainer}>
           <HomePage data={carbonFootprintData} navigation={navigation} />
+        </TabView.Item>
+        <TabView.Item style={styles.pageContainer}>
+          <HistoryPage />
         </TabView.Item>
         <TabView.Item style={styles.pageContainer}>
           <CommunityPage />
@@ -36,6 +40,7 @@ export const MobileHomePaginator = ({ data, navigation }) => {
         }}
       >
         <Tab.Item title="Home" titleStyle={styles.titleStyle} icon={{ name: 'home', type: 'ionicon', color: 'white' }} />
+        <Tab.Item title="History" titleStyle={styles.titleStyle} icon={{ name: 'history', type: 'font-awesome-5', color: 'white' }} />
         <Tab.Item title="Community" titleStyle={styles.titleStyle} icon={{ name: 'people-circle-outline', type: 'ionicon', color: 'white' }} />
         <Tab.Item title="Profile" titleStyle={styles.titleStyle} icon={{ name: 'person-circle-outline', type: 'ionicon', color: 'white' }} />
       </Tab>
