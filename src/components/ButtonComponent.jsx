@@ -1,11 +1,20 @@
 import React from 'react'
 import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import { theme } from '../theme'
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 
-const ButtonComponent = ({ title, onPress, disabled }) => {
+const ButtonComponent = ({ title, onPress, disabled, isArrow }) => {
   return (
     <TouchableOpacity style={[styles.button, disabled && styles.disabledButton]} onPress={onPress} disabled={disabled}>
-      <Text style={[styles.buttonText, disabled && styles.disabledButtonText]}>{title.toUpperCase()}</Text>
+      {isArrow === 'continue' || isArrow === 'back' || isArrow === 'sent' ? (
+        <FontAwesome
+          name={(isArrow === 'continue' && 'long-arrow-right') || (isArrow === 'back' && 'long-arrow-left') || (isArrow === 'sent' && 'send')}
+          size={20}
+          color="white"
+        />
+      ) : (
+        <Text style={[styles.buttonText, disabled && styles.disabledButtonText]}>{title.toUpperCase()}</Text>
+      )}
     </TouchableOpacity>
   )
 }

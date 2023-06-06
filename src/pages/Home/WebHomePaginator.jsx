@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text, Image } from 'react-native'
 import { Header, Button } from '@rneui/base'
 import HomePage from './Pages/HomePage'
 import { CommunityPage } from './Pages/CommunityPage'
 import { UserConfigPage } from './Pages/UserConfigPage'
 import { theme } from '../../theme'
 import HistoryPage from './Pages/HistoryPage'
+import { TouchableOpacity } from 'react-native-web'
 
 export const WebHomePaginator = ({ data, navigation }) => {
   const [index, setIndex] = useState(0)
@@ -21,7 +22,7 @@ export const WebHomePaginator = ({ data, navigation }) => {
       case 0:
         return <HomePage data={carbonFootprintData} navigation={navigation} />
       case 1:
-        return <HistoryPage />
+        return <HistoryPage navigation={navigation} />
       case 2:
         return <CommunityPage data={data} />
       case 3:
@@ -31,10 +32,24 @@ export const WebHomePaginator = ({ data, navigation }) => {
     }
   }
 
+  const headerTitle = () => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Login')
+        }}
+        style={(styles.headerLogoContainer, [{ flexDirection: 'row', backgroundColor: '0000' }])}
+      >
+        <Image source={require('../../../assets/favicon.png')} style={styles.logo} />
+        <Text style={{ fontFamily: 'BrunoAce', fontSize: 30, textTransform: 'uppercase', color: 'white' }}>Coper</Text>
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <Header
-        leftComponent={{ text: 'Home', style: { color: '#fff', fontSize: 20, fontWeight: 'bold' } }}
+        leftComponent={headerTitle}
         containerStyle={{ backgroundColor: theme.colors.primary }}
         rightComponent={
           <View style={{ flexDirection: 'row' }}>
@@ -57,5 +72,13 @@ const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
     backgroundColor: '#EEEEEE',
+  },
+  headerLogoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 40,
+    height: 40,
   },
 })

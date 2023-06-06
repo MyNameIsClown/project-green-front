@@ -10,6 +10,7 @@ import Constants from 'expo-constants'
 import HomePage from './pages/Home/Pages/HomePage'
 import { Paginator } from './pages/Home/PaginatorRedirect'
 import CalculationIntro from './pages/CarbonFootprintIntroductionCalc'
+import CarbonFootprintDetail from './pages/Home/Pages/detail/CarbonFootprintDetail'
 
 const Stack = createNativeStackNavigator()
 const isWeb = Platform.OS === 'web'
@@ -26,6 +27,7 @@ export default function Router() {
           <Stack.Screen name="HomePage" component={HomePage} options={{ headerShown: false }} />
           <Stack.Screen name="HomePaginator" component={Paginator} options={{ headerShown: false }} />
           <Stack.Screen name="CalculationIntro" component={CalculationIntro} options={{ headerShown: true, title: 'Introduccion' }} />
+          <Stack.Screen name="CarbonFootprintDetail" component={CarbonFootprintDetail} options={{ headerShown: true, title: 'Detalle' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
