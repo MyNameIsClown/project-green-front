@@ -4,7 +4,7 @@ import CarbonDataTable from '../../../components/CarbonFootprintDataTable'
 import { carbonFootprint } from '../../../services/CarbonFootprintService'
 import { theme } from '../../../theme'
 
-const HistoryPage = () => {
+const HistoryPage = ({ navigation }) => {
   const [historyData, setHistoryData] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -32,6 +32,7 @@ const HistoryPage = () => {
       const { status, data } = await carbonFootprint.getOne(id)
       if (status === 200) {
         console.log(data)
+        navigation.navigate('CarbonFootprintDetail', data)
       }
     } catch (error) {
       console.log(error)

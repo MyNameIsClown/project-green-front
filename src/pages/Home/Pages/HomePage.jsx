@@ -9,9 +9,7 @@ const strokeWidth = 10 // Ancho del borde de las barras
 const circumference = 2 * Math.PI * radius // Circunferencia de las barras
 
 const HomePage = ({ data, navigation }) => {
-  let { totalCo2Emitted, totalGreenScore } = data
-
-  totalCo2Emitted = totalCo2Emitted.toFixed(2)
+  const { totalCo2Emitted, totalGreenScore } = data
 
   const maxco2Emitted = 20000 // Valor máximo posible para el Green Score
   const greenScorePercentage = totalGreenScore // Porcentaje del Green Score
