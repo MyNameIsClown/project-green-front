@@ -42,7 +42,7 @@ export default function LogInPage(props) {
           const { status, data } = await carbonFootprint.getHomePageInfo()
           if (status === 200) {
             console.log(data)
-            props.navigation.navigate('HomePaginator', { data: data })
+            props.navigation.navigate('HomePaginator', { data })
           }
         } else {
           props.navigation.navigate('CalculationIntro')

@@ -78,8 +78,8 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
         </View>
       ))}
       <View style={styles.buttonContainer}>
-        <ButtonComponent title="Anterior" onPress={handleBack} disabled={currentPage === 0} />
-        <ButtonComponent title="Enviar" onPress={handleFormSubmit} />
+        <ButtonComponent isArrow="back" onPress={handleBack} disabled={currentPage === 0} />
+        <ButtonComponent isArrow="sent" onPress={handleFormSubmit} />
       </View>
     </View>
   )

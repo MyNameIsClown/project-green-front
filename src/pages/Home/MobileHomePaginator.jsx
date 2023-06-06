@@ -18,7 +18,7 @@ export const MobileHomePaginator = ({ data, navigation }) => {
           <HomePage data={carbonFootprintData} navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={styles.pageContainer}>
-          <HistoryPage />
+          <HistoryPage navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={styles.pageContainer}>
           <CommunityPage />
@@ -41,7 +41,7 @@ export const MobileHomePaginator = ({ data, navigation }) => {
       >
         <Tab.Item title="Home" titleStyle={styles.titleStyle} icon={{ name: 'home', type: 'ionicon', color: 'white' }} />
         <Tab.Item title="History" titleStyle={styles.titleStyle} icon={{ name: 'history', type: 'font-awesome-5', color: 'white' }} />
-        <Tab.Item title="Community" titleStyle={styles.titleStyle} icon={{ name: 'people-circle-outline', type: 'ionicon', color: 'white' }} />
+        <Tab.Item title="Group " titleStyle={styles.titleStyle} icon={{ name: 'people-circle-outline', type: 'ionicon', color: 'white' }} />
         <Tab.Item title="Profile" titleStyle={styles.titleStyle} icon={{ name: 'person-circle-outline', type: 'ionicon', color: 'white' }} />
       </Tab>
     </>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE',
   },
   titleStyle: {
-    fontSize: 12,
+    fontSize: 10,
     color: 'white',
   },
 })

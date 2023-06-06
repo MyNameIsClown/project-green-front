@@ -76,8 +76,8 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
         </View>
       ))}
       <View style={styles.buttonContainer}>
-        <ButtonComponent title="Anterior" onPress={handleBack} disabled={currentPage === 0} />
-        <ButtonComponent title="Siguiente" onPress={handleFormSubmit} />
+      <ButtonComponent isArrow="back" onPress={handleBack} disabled={currentPage === 0} />
+        <ButtonComponent isArrow="continue" onPress={handleFormSubmit} />
       </View>
     </View>
   )
