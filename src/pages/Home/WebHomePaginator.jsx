@@ -24,7 +24,7 @@ export const WebHomePaginator = ({ data, navigation }) => {
       case 1:
         return <HistoryPage navigation={navigation} />
       case 2:
-        return <CommunityPage data={data} />
+        return <CommunityPage navigation={navigation} />
       case 3:
         return <UserConfigPage data={user} />
       default:
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pageContainer: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#EEEEEE',
   },
   headerLogoContainer: {

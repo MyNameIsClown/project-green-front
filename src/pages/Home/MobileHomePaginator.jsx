@@ -21,7 +21,7 @@ export const MobileHomePaginator = ({ data, navigation }) => {
           <HistoryPage navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={styles.pageContainer}>
-          <CommunityPage />
+          <CommunityPage navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={styles.pageContainer}>
           <UserConfigPage data={user} />
