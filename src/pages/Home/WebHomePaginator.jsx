@@ -26,7 +26,7 @@ export const WebHomePaginator = ({ data, navigation }) => {
       case 2:
         return <CommunityPage navigation={navigation} />
       case 3:
-        return <UserConfigPage data={user} />
+        return <UserConfigPage data={user} navigation={navigation} />
       default:
         return null
     }
