@@ -1,18 +1,19 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { Svg, Circle } from 'react-native-svg'
 import { theme } from '../../../theme'
 import RoundButton from '../../../components/RoundButtonComponent'
-import CicleMetter from '../../../components/CircleMetterComponent'
+
 const radius = 100 // Radio de las barras semicirculares
-// const strokeWidth = 10 // Ancho del borde de las barras
-// const circumference = 2 * Math.PI * radius // Circunferencia de las barras
+const strokeWidth = 10 // Ancho del borde de las barras
+const circumference = 2 * Math.PI * radius // Circunferencia de las barras
 
 const HomePage = ({ data, navigation }) => {
   const { totalCo2Emitted, totalGreenScore } = data
 
-  // const maxco2Emitted = 20000 // Valor máximo posible para el Green Score
-  // const greenScorePercentage = totalGreenScore // Porcentaje del Green Score
-  // const co2EmittedPercentage = (totalCo2Emitted / maxco2Emitted) * 100 // Porcentaje del CO2 Emitted
+  const maxco2Emitted = 20000 // Valor máximo posible para el Green Score
+  const greenScorePercentage = totalGreenScore // Porcentaje del Green Score
+  const co2EmittedPercentage = (totalCo2Emitted / maxco2Emitted) * 100 // Porcentaje del CO2 Emitted
 
   const handleCalculation = () => {
     console.log('Calculando')
@@ -22,8 +23,32 @@ const HomePage = ({ data, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.statusContainer}>
-        <CicleMetter />
-        {/* <RoundButton handlePress={handleCalculation} colors={theme.colors.primary} text="GO" /> */}
+        <Svg style={styles.svg}>
+          {/* Barra del Green Score */}
+          <Circle
+            cx={radius}
+            cy={radius}
+            r={radius - strokeWidth / 2}
+            stroke={theme.colors.primary}
+            strokeWidth={strokeWidth}
+            fill="none"
+            strokeDasharray={`${(greenScorePercentage * circumference) / 100}, ${circumference}`}
+            transform={`rotate(-90 ${radius} ${radius})`}
+          />
+          {/* Barra del CO2 Emitted */}
+          <Circle
+            cx={radius}
+            cy={radius}
+            r={radius - strokeWidth / 2 - 15} // Ajusta el radio para que se vea una barra dentro de la otra
+            stroke={theme.colors.secondary}
+            strokeWidth={strokeWidth}
+            fill="none"
+            strokeDasharray={`${(co2EmittedPercentage * circumference) / 100}, ${circumference}`}
+            transform={`rotate(-90 ${radius} ${radius})`}
+          />
+        </Svg>
+        {/* Botón */}
+        <RoundButton handlePress={handleCalculation} colors={theme.colors.primary} text="GO" />
       </View>
       <View style={styles.textContainer}>
         <Text style={[styles.scoreText, { color: theme.colors.primary }]}>Green Score: {totalGreenScore}</Text>
@@ -63,14 +88,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textContainer: {
-    marginTop: 150,
+    marginTop: 20,
   },
   scoreText: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  circle: { borderRadius: radius, marginVertical: 10, position: 'absolute' },
 })
 
 export default HomePage
