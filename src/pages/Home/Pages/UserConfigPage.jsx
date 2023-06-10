@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ActivityIndicator, Platform, ScrollView } from 'react-native'
 import { Card, Button } from '@rneui/base'
 import { groups } from '../../../services/Groups'
-import { alert } from '../../../components/AlertComponent'
+import alert from '../../../components/AlertComponent'
 import { user } from '../../../services/UserService'
 import { theme } from '../../../theme'
 
@@ -31,7 +31,7 @@ export const UserConfigPage = ({ data, navigation }) => {
           setGroupData(data)
         }
       } catch (error) {
-        alert('Error:', error.response.data)
+        console.log(error.response.data)
       } finally {
         setLoading(false)
       }
@@ -48,7 +48,7 @@ export const UserConfigPage = ({ data, navigation }) => {
   }
 
   const handleCreateGroup = () => {
-    console.log('Creating group')
+    navigation.navigate('CreateGroup')
   }
 
   return (
