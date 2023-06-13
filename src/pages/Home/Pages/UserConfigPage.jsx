@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator, Platform, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, Platform, ScrollView, FlatList } from 'react-native'
 import { Card, Button } from '@rneui/base'
 import { groups } from '../../../services/Groups'
 import alert from '../../../components/AlertComponent'
 import { user } from '../../../services/UserService'
 import { theme } from '../../../theme'
+import { activity } from '../../../services/ActivityService'
 
 const isWeb = Platform.OS === 'web'
 
@@ -18,17 +19,30 @@ export const UserConfigPage = ({ data, navigation }) => {
     const fetchGroupData = async () => {
       setLoading(true)
       try {
-        const { userStatus, dataUser } = await user.currentUser()
-        if (userStatus === 200) {
-          setUserData(dataUser)
-        } else if (userStatus === 401) {
+        const { status, data } = await user.currentUser()
+        if (status === 200) {
+          setUserData(data)
+        } else if (status === 401) {
           alert('Error:', 'There was a problem with the current session')
           navigation.navigate('Login')
         }
+      } catch (error) {
+        console.log(error.response.data)
+      }
+      try {
         const { status, data } = await groups.getOwn()
         if (status === 200) {
           console.log(data)
           setGroupData(data)
+        }
+      } catch (error) {
+        console.log(error.response.data)
+      }
+      try {
+        const { status, data } = await activity.getActivitiesJoined()
+        if (status === 200) {
+          console.log(data)
+          setInscriptionData(data)
         }
       } catch (error) {
         console.log(error.response.data)
@@ -37,18 +51,59 @@ export const UserConfigPage = ({ data, navigation }) => {
       }
     }
     fetchGroupData()
-  }, [])
+  }, [navigation])
 
   const handleChangePassword = () => {
     console.log('Change Password')
   }
 
-  const handleManageGroup = () => {
-    console.log('Manage Group')
+  const handleManageGroup = async (id) => {
+    setLoading(true)
+    try {
+      const { status, data } = await groups.getDetail(id)
+      if (status === 200) {
+        console.log(data)
+        navigation.navigate('ManageGroup', data)
+      }
+    } catch (error) {
+      console.log(error.response.data)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleCreateGroup = () => {
     navigation.navigate('CreateGroup')
+  }
+
+  const handleJoinActivity = async (id) => {
+    setLoading(true)
+    try {
+      const { status, data } = await activity.getDetailJoin(id)
+      if (status === 200) {
+        navigation.navigate('ActivityDetailJoin', data)
+      }
+    } catch (error) {
+      alert('Error: ', error.response.data)
+    } finally {
+      setLoading(false)
+    }
+  }
+  const InvitationCard = ({ item }) => {
+    return (
+      <Card containerStyle={{ marginHorizontal: 20, marginBottom: 20 }}>
+        {console.log(item.item)}
+        <Card.Title>{item.item.name}</Card.Title>
+        <Text>{item.item.celebrationDate}</Text>
+        <Text>{item.item.privacity.toString()}</Text>
+        <Button
+          title="Join"
+          buttonStyle={styles.subscribeButton}
+          titleStyle={styles.subscribeButtonText}
+          onPress={() => handleJoinActivity(item.item.id)}
+        />
+      </Card>
+    )
   }
 
   return (
@@ -94,14 +149,17 @@ export const UserConfigPage = ({ data, navigation }) => {
                 onPress={() => handleCreateGroup()}
               />
             )}
-            {/* {inscriptionData.activities && (
-            <Card style={styles.card}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>My Activities:</Text>
-              {data.activities.map((activity, index) => (
-                <Text key={index}>{activity}</Text>
-              ))}
+            <Card containerStyle={styles.cardContainer}>
+              <Card.Title>Activities Joined</Card.Title>
+              <Card.Divider />
+              <FlatList
+                data={inscriptionData}
+                renderItem={(item) => <InvitationCard item={item} />}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+                contentContainerStyle={{ paddingVertical: 20, alignItems: 'center' }}
+              />
             </Card>
-          )} */}
           </View>
         )}
       </ScrollView>

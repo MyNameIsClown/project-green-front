@@ -12,6 +12,10 @@ import { Paginator } from './pages/Home/PaginatorRedirect'
 import CalculationIntro from './pages/CarbonFootprintIntroductionCalc'
 import CarbonFootprintDetail from './pages/Home/Pages/detail/CarbonFootprintDetail'
 import GroupDetailPage from './pages/Home/Pages/detail/GroupDetailPage'
+import CreateGroup from './pages/Home/Pages/CreateGroupForm'
+import ManageGroup from './pages/Home/Pages/ManageGroup'
+import ActivityDetail from './pages/Home/Pages/detail/ActivityDetail'
+import ActivityDetailJoin from './pages/Home/Pages/detail/ActivityDetailJoin'
 
 const Stack = createNativeStackNavigator()
 const isWeb = Platform.OS === 'web'
@@ -27,9 +31,13 @@ export default function Router() {
           <Stack.Screen name="CarbonFootprintForm" component={CarbonFootprintForm} options={{ headerShown: isWeb, title: 'Calculadora' }} />
           <Stack.Screen name="HomePage" component={HomePage} options={{ headerShown: false }} />
           <Stack.Screen name="HomePaginator" component={Paginator} options={{ headerShown: false }} />
-          <Stack.Screen name="CalculationIntro" component={CalculationIntro} options={{ headerShown: true, title: 'Introduccion' }} />
-          <Stack.Screen name="CarbonFootprintDetail" component={CarbonFootprintDetail} options={{ headerShown: true, title: 'Detalle' }} />
-          <Stack.Screen name="GroupDetails" component={GroupDetailPage} options={{ headerShown: true, title: 'Detalle' }} />
+          <Stack.Screen name="CalculationIntro" component={CalculationIntro} options={{ headerShown: true, title: 'Introduction' }} />
+          <Stack.Screen name="CarbonFootprintDetail" component={CarbonFootprintDetail} options={{ headerShown: true, title: 'Detail' }} />
+          <Stack.Screen name="GroupDetails" component={GroupDetailPage} options={{ headerShown: true, title: 'Detail' }} />
+          <Stack.Screen name="CreateGroup" component={CreateGroup} options={{ headerShown: true, title: 'Detail' }} />
+          <Stack.Screen name="ManageGroup" component={ManageGroup} options={{ headerShown: true, title: 'Manage' }} />
+          <Stack.Screen name="ActivityDetail" component={ActivityDetail} options={{ headerShown: true, title: 'Manage' }} />
+          <Stack.Screen name="ActivityDetailJoin" component={ActivityDetailJoin} options={{ headerShown: true, title: 'Manage' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
