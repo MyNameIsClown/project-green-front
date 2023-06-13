@@ -8,7 +8,7 @@ import { Card, Button, Input, Dialog } from '@rneui/base'
 import RNDateTimePicker from '@react-native-community/datetimepicker'
 import { Ionicons } from '@expo/vector-icons'
 import { Table, Row, Cell, TableWrapper } from 'react-native-reanimated-table'
-import Modal from 'modal-react-native-web'
+import alert from '../../../components/AlertComponent'
 
 const isWeb = Platform.OS === 'web'
 
@@ -18,6 +18,7 @@ const ManageGroup = ({ route, navigation }) => {
   const [showForm, setShowForm] = useState(false)
   const [groupData, setGroupData] = useState(dataOrigin)
   const [dialogDeleteUserVisible, setDialogDeleteUserVisible] = useState(false)
+  const [userIndexToDelete, setUserIndexToDelete] = useState()
 
   const tableHead = ['Name', 'Date', 'Privacy', '']
   const tableData = groupData.activities.map((item) => [item.name, new Date(item.celebrationDate).toLocaleString(), item.privacity.toString(), ''])
@@ -82,8 +83,11 @@ const ManageGroup = ({ route, navigation }) => {
   const deleteUserElement = (userData) => (
     <View>
       {userData[1] !== 'owner' && (
-        <TouchableOpacity onPress={() => handleDeleteUser(userData[0])}>
-          <Ionicons name="trash" color="white" style={{ backgroundColor: 'red', padding: 5, borderRadius: 5, alignSelf: 'center' }} size={30} />
+        <TouchableOpacity onPress={() => {
+          setUserIndexToDelete(userData[0])
+          switchVisibilityDeleteDialog()
+          }}>
+          <Ionicons name="trash" color="white" style={{ backgroundColor: theme.colors.secondary, padding: 5, borderRadius: 5, alignSelf: 'center' }} size={25} />
         </TouchableOpacity>
       )}
     </View>
@@ -91,9 +95,20 @@ const ManageGroup = ({ route, navigation }) => {
   const switchVisibilityDeleteDialog = () => {
     setDialogDeleteUserVisible(!dialogDeleteUserVisible)
   }
-  const handleDeleteUser = (index) => {
-    console.log(index)
+  const handleDeleteUser = async (index) => {
+    setLoading(true)
     switchVisibilityDeleteDialog()
+    try {
+      const { status} = await groups.deleteUserFromGroup(groupData.id,index)
+      if (status === 200) {
+        alert("Success", "Delete Success")
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+      navigation.goBack()
+    }
   }
 
   const handleCreateActivity = async (source) => {
@@ -145,15 +160,15 @@ const ManageGroup = ({ route, navigation }) => {
         <View>
           <Dialog
             isVisible={dialogDeleteUserVisible}
+            overlayStyle={styles.dialogStyle}
             onBackdropPress={switchVisibilityDeleteDialog}
-            ModalComponent={Modal}
             style={styles.dialogStyle}
           >
-            <Dialog.Title title="Dialog Title" />
-            <Text>Dialog body text. Add relevant information here.</Text>
+            <Dialog.Title title="Do you want to kick the user out?" />
+            <Text>You are about to kick the user out of the group, they can join again whenever they want.</Text>
             <Dialog.Actions>
-              <Dialog.Button title="ACCEPT" onPress={() => console.log('Primary Action Clicked!')} />
-              <Dialog.Button title="CANCEL" onPress={() => console.log('Secondary Action Clicked!')} />
+              <Dialog.Button title="ACCEPT" onPress={() => handleDeleteUser(userIndexToDelete)} />
+              <Dialog.Button title="CANCEL" onPress={() => switchVisibilityDeleteDialog()} />
             </Dialog.Actions>
           </Dialog>
           <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -161,10 +176,10 @@ const ManageGroup = ({ route, navigation }) => {
               <Card.Title style={styles.title}>{groupData.name}</Card.Title>
               <Card.Divider />
               <Text style={styles.description}>{groupData.description}</Text>
-              <Table borderStyle={{ borderColor: 'transparent' }}>
+              <Table style={{marginBottom: 10}}>
                 <Row data={tableUserHead} style={styles.head} textStyle={styles.headText} />
                 {tableUserData.map((rowData, index) => (
-                  <TableWrapper key={index} style={{ flexDirection: 'row', paddingTop: 10 }}>
+                  <TableWrapper key={index} style={{ flexDirection: 'row', marginBottom: 20 }}>
                     {rowData.map((cellData, cellIndex) => (
                       <Cell key={cellIndex} data={cellIndex === 2 ? deleteUserElement(tableUserData[index]) : cellData} textStyle={styles.text} />
                     ))}
@@ -272,7 +287,7 @@ const ManageGroup = ({ route, navigation }) => {
                       onPress={handleSubmit(handleCreateActivity)}
                       containerStyle={styles.buttonStyles}
                     />
-                    <Button title="Cancel" color="red" onPress={handleCancelActivity} containerStyle={styles.buttonStyles} />
+                    <Button title="Cancel" color={theme.colors.secondary} onPress={handleCancelActivity} containerStyle={styles.buttonStyles} />
                   </View>
                 </Card>
               )}
@@ -293,6 +308,7 @@ const ManageGroup = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   dialogStyle: {
     backgroundColor: 'white',
+    borderRadius: 20,
   },
   container: {
     alignItems: 'center',
@@ -351,6 +367,7 @@ const styles = StyleSheet.create({
   location: {
     textAlign: 'right',
     fontStyle: 'italic',
+    fontWeight: 'bold'
   },
   buttonStyles: {
     marginTop: 10,
