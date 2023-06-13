@@ -34,7 +34,7 @@ export default function Router() {
           <Stack.Screen name="CalculationIntro" component={CalculationIntro} options={{ headerShown: true, title: 'Introduction' }} />
           <Stack.Screen name="CarbonFootprintDetail" component={CarbonFootprintDetail} options={{ headerShown: true, title: 'Detail' }} />
           <Stack.Screen name="GroupDetails" component={GroupDetailPage} options={{ headerShown: true, title: 'Detail' }} />
-          <Stack.Screen name="CreateGroup" component={CreateGroup} options={{ headerShown: true, title: 'Detail' }} />
+          <Stack.Screen name="CreateGroup" component={CreateGroup} options={{ headerShown: true, title: 'Create group' }} />
           <Stack.Screen name="ManageGroup" component={ManageGroup} options={{ headerShown: true, title: 'Manage' }} />
           <Stack.Screen name="ActivityDetail" component={ActivityDetail} options={{ headerShown: true, title: 'Manage' }} />
           <Stack.Screen name="ActivityDetailJoin" component={ActivityDetailJoin} options={{ headerShown: true, title: 'Manage' }} />

@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
-import { View, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, ActivityIndicator, Platform } from 'react-native'
 import FormInput from '../../../components/FormInput'
 import FormButton from '../../../components/FormButton'
 import alert from '../../../components/AlertComponent'
 import { theme } from '../../../theme'
 import { groups } from '../../../services/Groups'
+import { Button, Input } from '@rneui/base'
+
+const isWeb = Platform.OS === 'web'
 
 /* CREATE GROUP */
 export default function CreateGroup({ navigation }) {
@@ -40,14 +43,14 @@ export default function CreateGroup({ navigation }) {
       {loading ? (
         <ActivityIndicator size="large" color={theme.colors.primary} />
       ) : (
-        <View style={styles.formContainer}>
+        <View style={styles.container}>
           <Controller
             control={control}
             rules={{
               required: true,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput placeholder="name" onBlur={onBlur} onChange={onChange} value={value} width={300} />
+              <Input inputContainerStyle={styles.inputContainer} label='Name' value={value} onChangeText={onChange} onBlur={onBlur}/>
             )}
             name="name"
           />
@@ -56,10 +59,10 @@ export default function CreateGroup({ navigation }) {
             control={control}
             rules={{
               required: true,
-              maxLength: 100,
+              maxLength: 2000,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput placeholder="description" onBlur={onBlur} onChange={onChange} value={value} width={300} />
+              <Input inputContainerStyle={styles.inputContainer} label='Description' value={value} onChangeText={onChange} onBlur={onBlur}/>
             )}
             name="description"
           />
@@ -71,12 +74,12 @@ export default function CreateGroup({ navigation }) {
               maxLength: 100,
             }}
             render={({ field: { onChange, onBlur, value } }) => (
-              <FormInput placeholder="locationName" onBlur={onBlur} onChange={onChange} value={value} width={300} />
+              <Input inputContainerStyle={styles.inputContainer} label='Location Name' value={value} onChangeText={onChange} onBlur={onBlur}/>
             )}
             name="locationName"
           />
 
-          <FormButton title="Create" handleSubmit={handleSubmit(onSubmit)} primary />
+          <Button title='Create' onPress={handleSubmit(onSubmit)} color={theme.colors.primary} containerStyle={styles.button}/>
         </View>
       )}
     </View>
@@ -85,12 +88,19 @@ export default function CreateGroup({ navigation }) {
 
 const styles = StyleSheet.create({
   formContainer: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  container: {
+    width: isWeb ? '60%' : '100%',
+    paddingHorizontal: 10
   },
   logo: {
     width: 50,
     height: 50,
   },
+  button:{
+    borderRadius: 10,
+  }
 })

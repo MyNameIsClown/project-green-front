@@ -114,10 +114,20 @@ export const UserConfigPage = ({ data, navigation }) => {
         ) : (
           <View>
             <Card containerStyle={styles.cardContainer}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>User Details:</Text>
-              <Text>Username: {userData.username}</Text>
-              <Text>Email: {userData.email}</Text>
-              <Text>Full Name: {userData.fullname}</Text>
+              <Card.Title>User info</Card.Title>
+              <Card.Divider/>
+              <View style={{flexDirection: 'row', marginBottom: 10}}>
+                <Text style={{fontWeight: 'bold'}}>Username: </Text>
+                <Text>{userData.username}</Text>
+              </View>
+              <View style={{flexDirection: 'row', marginBottom: 10}}>
+                <Text style={{fontWeight: 'bold'}}>Email: </Text>
+                <Text>{userData.email}</Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{fontWeight: 'bold'}}>Full name: </Text>
+                <Text>{userData.fullname}</Text>
+              </View>
               <Button
                 buttonStyle={styles.buttonStyle}
                 containerStyle={styles.buttonContainerStyle}
@@ -128,10 +138,18 @@ export const UserConfigPage = ({ data, navigation }) => {
             </Card>
             {userData.hasGroup && groupData ? (
               <Card containerStyle={styles.cardContainer}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>My Group:</Text>
-                <Text>Group Name: {groupData.name}</Text>
-                <Text>Description: {groupData.description}</Text>
-                <Text>Location: {groupData.locationName}</Text>
+                <Card.Title>My group</Card.Title>
+                <Card.Divider/>
+                <View style={{flexDirection: 'row', marginBottom: 10}}>
+                  <Text style={{fontWeight: 'bold'}}>Name: </Text>
+                  <Text>{groupData.name}</Text>
+                </View>
+                <Text style={{fontWeight: 'bold'}}>Description: </Text>
+                <Text style={{marginBottom: 10}}>{groupData.description}</Text>
+                <View style={{flexDirection: 'row', marginBottom: 10}}>
+                  <Text style={{fontWeight: 'bold'}}>Location: </Text>
+                  <Text>{groupData.locationName}</Text>
+                </View>
                 <Button
                   buttonStyle={styles.buttonStyle}
                   containerStyle={styles.buttonContainerStyle}
@@ -152,6 +170,7 @@ export const UserConfigPage = ({ data, navigation }) => {
             <Card containerStyle={styles.cardContainer}>
               <Card.Title>Activities Joined</Card.Title>
               <Card.Divider />
+              {inscriptionData.size > 0 ?
               <FlatList
                 data={inscriptionData}
                 renderItem={(item) => <InvitationCard item={item} />}
@@ -159,6 +178,9 @@ export const UserConfigPage = ({ data, navigation }) => {
                 numColumns={2}
                 contentContainerStyle={{ paddingVertical: 20, alignItems: 'center' }}
               />
+              :
+              <Text>You haven't signed up for any activity yet</Text>
+              }
             </Card>
           </View>
         )}
@@ -171,6 +193,11 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     flexGrow: 1,
+  },
+  scrollContainer: {
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    marginBottom: 20,
   },
   cardContainer: {
     width: isWeb ? '60%' : '100%',
@@ -190,9 +217,4 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonTitleStyle: { fontWeight: 'bold' },
-  scrollContainer: {
-    marginHorizontal: 10,
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
 })

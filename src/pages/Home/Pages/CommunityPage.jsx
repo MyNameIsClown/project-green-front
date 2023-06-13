@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, ActivityIndicator, Platform, ScrollView, TouchableOpacity, Switch } from 'react-native'
 import { groups } from '../../../services/Groups'
 import { theme } from '../../../theme'
-import { Button, Card } from '@rneui/base'
+import { Button, Card, Input } from '@rneui/base'
 import { CardDivider } from '@rneui/base/dist/Card/Card.Divider'
 import FormInput from '../../../components/FormInput'
 import { Ionicons } from '@expo/vector-icons'
@@ -87,7 +87,8 @@ export const CommunityPage = ({ navigation }) => {
         ) : (
           <View>
             <View style={styles.filterStyles}>
-              <FormInput placeholder="search" value={search} onChange={updateSearch} />
+              {/* <FormInput placeholder="search" value={search} onChange={updateSearch} /> */}
+              <Input value={search} onChange={updateSearch} inputContainerStyle={styles.searchBar}/>
               <TouchableOpacity style={styles.searchButton} onPress={() => handleSearch()}>
                 <Ionicons name="search" size={30} />
               </TouchableOpacity>
@@ -132,9 +133,16 @@ export const CommunityPage = ({ navigation }) => {
 }
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
+  },
+  scrollContainer: {
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  searchBar:{
+
   },
   cardStyle: {
     flex: 1,
@@ -142,15 +150,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 20,
   },
-  scrollContainer: {
-    marginHorizontal: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
   filterStyles: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: isWeb ? '60%' : '100%', 
+    alignSelf: 'center',
     flexDirection: 'row',
   },
   searchButton: {
