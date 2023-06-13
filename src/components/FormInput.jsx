@@ -16,7 +16,7 @@ export default function FormInput(props) {
 }
 FormInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
-  onBlur: PropTypes.any.isRequired,
+  onBlur: PropTypes.any,
   onChange: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
   width: PropTypes.any,

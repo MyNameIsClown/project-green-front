@@ -2,11 +2,13 @@
   "expo": {
     "name": "coper",
     "slug": "project-green-front",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/favicon.png",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -21,6 +23,12 @@
       "eas": {
         "projectId": "389f1a83-5bb4-4e02-ab80-3a1805ae4b9f"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/389f1a83-5bb4-4e02-ab80-3a1805ae4b9f"
     }
   }
 }

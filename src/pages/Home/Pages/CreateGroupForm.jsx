@@ -20,18 +20,19 @@ export default function CreateGroup({ navigation }) {
 
   const onSubmit = async (source) => {
     console.log(source)
-    // setLoading(true)
-    // try {
-    //   const { status, data } = await groups.create(source)
-    //   if (status === 201) {
-    //     console.log(data)
-    //   }
-    // } catch (error) {
-    //   console.log(error)
-    //   alert('Error', error.response.data.error)
-    // } finally {
-    //   setLoading(false)
-    // }
+    setLoading(true)
+    try {
+      const { status, data } = await groups.create(source)
+      if (status === 200) {
+        console.log(data)
+        navigation.goBack()
+      }
+    } catch (error) {
+      console.log(error)
+      alert('Error', error.response.data.error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

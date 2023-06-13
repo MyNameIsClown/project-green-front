@@ -92,7 +92,7 @@ export const CommunityPage = ({ navigation }) => {
                 <Ionicons name="search" size={30} />
               </TouchableOpacity>
               <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                trackColor={{ false: '#767577', true: theme.colors.primary }}
                 thumbColor={isRegisterFilterOn ? '#f5dd4b' : '#f4f3f4'}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={handleRegisterFilter}
