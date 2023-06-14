@@ -86,20 +86,28 @@ export const CommunityPage = ({ navigation }) => {
           <ActivityIndicator size="large" color={theme.colors.primary} />
         ) : (
           <View>
-            <View style={styles.filterStyles}>
-              {/* <FormInput placeholder="search" value={search} onChange={updateSearch} /> */}
-              <Input value={search} onChange={updateSearch} inputContainerStyle={styles.searchBar}/>
-              <TouchableOpacity style={styles.searchButton} onPress={() => handleSearch()}>
-                <Ionicons name="search" size={30} />
-              </TouchableOpacity>
-              <Switch
-                trackColor={{ false: '#767577', true: theme.colors.primary }}
-                thumbColor={isRegisterFilterOn ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={handleRegisterFilter}
-                value={isRegisterFilterOn}
-              />
-            </View>
+            <Card containerStyle={{
+              width: isWeb ? '60%' : '100%',
+              alignSelf: 'center',
+              borderRadius: 20,}}>
+              <View style={styles.filterStyles}>
+                {/* <FormInput placeholder="search" value={search} onChange={updateSearch} /> */}
+                <Input value={search} onChangeText={updateSearch} inputContainerStyle={styles.searchBar}/>
+                <TouchableOpacity style={styles.searchButton} onPress={() => handleSearch()}>
+                  <Ionicons name="search" size={30} />
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.filterStyles, styles.filterSuscribe]}>
+                <Text style={{fontWeight: 'bold'}}>Filter suscribe:</Text>
+                <Switch
+                  trackColor={{ false: '#767577', true: theme.colors.primary }}
+                  thumbColor={isRegisterFilterOn ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={handleRegisterFilter}
+                  value={isRegisterFilterOn}
+                />
+              </View>
+            </Card>
             {listGroups.map((data, index) => (
               <Card key={index} containerStyle={styles.cardStyle}>
                 <Card.Title style={{ fontWeight: 'bold' }}>{data.name}</Card.Title>
@@ -141,9 +149,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 20,
   },
-  searchBar:{
-
-  },
   cardStyle: {
     flex: 1,
     width: isWeb ? '60%' : '100%',
@@ -151,9 +156,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   filterStyles: {
-    width: isWeb ? '60%' : '100%', 
+    width: isWeb ? '60%' : '80%', 
     alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'baseline',
     flexDirection: 'row',
+    marginTop: 10
+  },
+  filterSuscribe: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   searchButton: {
     padding: 10,

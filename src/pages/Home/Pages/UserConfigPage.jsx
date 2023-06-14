@@ -32,7 +32,6 @@ export const UserConfigPage = ({ data, navigation }) => {
       try {
         const { status, data } = await groups.getOwn()
         if (status === 200) {
-          console.log(data)
           setGroupData(data)
         }
       } catch (error) {
@@ -41,7 +40,6 @@ export const UserConfigPage = ({ data, navigation }) => {
       try {
         const { status, data } = await activity.getActivitiesJoined()
         if (status === 200) {
-          console.log(data)
           setInscriptionData(data)
         }
       } catch (error) {
@@ -54,7 +52,7 @@ export const UserConfigPage = ({ data, navigation }) => {
   }, [navigation])
 
   const handleChangePassword = () => {
-    console.log('Change Password')
+    navigation.navigate("ChangePassword")
   }
 
   const handleManageGroup = async (id) => {
@@ -62,7 +60,6 @@ export const UserConfigPage = ({ data, navigation }) => {
     try {
       const { status, data } = await groups.getDetail(id)
       if (status === 200) {
-        console.log(data)
         navigation.navigate('ManageGroup', data)
       }
     } catch (error) {
@@ -91,15 +88,19 @@ export const UserConfigPage = ({ data, navigation }) => {
   }
   const InvitationCard = ({ item }) => {
     return (
-      <Card containerStyle={{ marginHorizontal: 20, marginBottom: 20 }}>
-        {console.log(item.item)}
+      <Card containerStyle={{flex:1, marginBottom: 10, borderRadius: 20, alignItems: 'center', justifyContent: 'space-evenly'}}>
         <Card.Title>{item.item.name}</Card.Title>
-        <Text>{item.item.celebrationDate}</Text>
-        <Text>{item.item.privacity.toString()}</Text>
+        <Text style={{fontWeight: 'bold'}}>Celebration date: </Text>
+        <Text>{new Date(item.item.celebrationDate.toString()).toLocaleDateString()}</Text>
+        
+        {item.item.privacity === false 
+          ? <Text style={{marginTop: 10, fontStyle: 'italic'}}>This activity is public</Text>
+          : <Text>This activity is private</Text>
+        }
         <Button
-          title="Join"
-          buttonStyle={styles.subscribeButton}
-          titleStyle={styles.subscribeButtonText}
+          title="See more"
+          containerStyle={styles.buttonActivity}
+          color={theme.colors.primary}
           onPress={() => handleJoinActivity(item.item.id)}
         />
       </Card>
@@ -133,7 +134,7 @@ export const UserConfigPage = ({ data, navigation }) => {
                 containerStyle={styles.buttonContainerStyle}
                 titleStyle={styles.buttonTitleStyle}
                 title="Change Password"
-                onPress={() => handleChangePassword}
+                onPress={() => handleChangePassword()}
               />
             </Card>
             {userData.hasGroup && groupData ? (
@@ -170,13 +171,12 @@ export const UserConfigPage = ({ data, navigation }) => {
             <Card containerStyle={styles.cardContainer}>
               <Card.Title>Activities Joined</Card.Title>
               <Card.Divider />
-              {inscriptionData.size > 0 ?
+              {inscriptionData.length > 0 ?
               <FlatList
                 data={inscriptionData}
                 renderItem={(item) => <InvitationCard item={item} />}
                 keyExtractor={(item) => item.id}
                 numColumns={2}
-                contentContainerStyle={{ paddingVertical: 20, alignItems: 'center' }}
               />
               :
               <Text>You haven't signed up for any activity yet</Text>
@@ -216,5 +216,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignSelf: 'center',
   },
-  buttonTitleStyle: { fontWeight: 'bold' },
+  buttonTitleStyle: { 
+    fontWeight: 'bold' 
+  },
+  buttonActivity:{
+    borderRadius: 20,
+    margin: 20
+  }
 })
