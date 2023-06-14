@@ -344,7 +344,9 @@ const handleColorChange = (cellData)=>{
                     name="celebrationDate"
                   />
                   {!hasPickAnCelebrationDate && <Text>This is required</Text>}
-                  <Controller
+                  <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={[styles.text, {fontWeight:'bold', fontSize: 16, color: 'grey', marginRight: 20}]}>Is it private?</Text>
+                    <Controller
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <Switch
@@ -356,6 +358,7 @@ const handleColorChange = (cellData)=>{
                     )}
                     name="isPrivate"
                   />
+                  </View>
                   <View style={{ flexDirection: 'row' }}>
                     <Button
                       title="Create"
