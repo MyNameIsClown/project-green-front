@@ -4,8 +4,8 @@ import { View, ActivityIndicator, Text, ScrollView, StyleSheet, Platform, Switch
 import { theme } from '../../../theme'
 import { activity } from '../../../services/ActivityService'
 import { groups } from '../../../services/Groups'
-import { Card, Button, Input, Dialog } from '@rneui/base'
-import RNDateTimePicker from '@react-native-community/datetimepicker'
+import { Card, Button, Input, Dialog} from '@rneui/base'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { Ionicons } from '@expo/vector-icons'
 import { Table, Row, Cell, TableWrapper } from 'react-native-reanimated-table'
 import alert from '../../../components/AlertComponent'
@@ -20,8 +20,9 @@ const ManageGroup = ({ route, navigation }) => {
   const [dialogDeleteUserVisible, setDialogDeleteUserVisible] = useState(false)
   const [userIndexToDelete, setUserIndexToDelete] = useState()
 
-  const tableHead = ['Name', 'Date', 'Privacy', '']
-  const tableData = groupData.activities.map((item) => [item.name, new Date(item.celebrationDate).toLocaleString(), item.privacity.toString(), ''])
+
+  const tableHead = ['Name', 'Date', 'State', '']
+  const tableData = groupData.activities.map((item) => [item.name, new Date(item.celebrationDate).toLocaleDateString(), item.state, ''])
   const tableIndexes = groupData.activities.map((item) => [item.id])
 
   const tableUserHead = ['Username', 'Group Role', '']
@@ -112,12 +113,26 @@ const ManageGroup = ({ route, navigation }) => {
   }
 
   const handleCreateActivity = async (source) => {
+    
+    let finalDate
+    if(isWeb){
+      if(isValidDate(source.celebrationDate)){
+        finalDate = new Date(source.celebrationDate)
+        setHasPickAnCelebrationDate(true)
+      }else{
+        alert("Error","Date not valid use format MM/DD/yyyy")
+        setHasPickAnCelebrationDate(false)
+      }
+    }
+    
     if (hasPickAnCelebrationDate === true) {
       setLoading(true)
 
-      const newLastTimeToSignUp = new Date(celebration.getTime())
+      finalDate = isWeb ? finalDate : celebration
+
+      const newLastTimeToSignUp = new Date(finalDate.getTime())
       newLastTimeToSignUp.setDate(newLastTimeToSignUp.getDate() - 1)
-      source.celebrationDate = celebration
+      source.celebrationDate = finalDate
       source.lastTimeToSignUp = newLastTimeToSignUp
       console.log(source)
 
@@ -147,10 +162,48 @@ const ManageGroup = ({ route, navigation }) => {
   const changeSelectedDate = (selectedDate) => {
     setShowCelebrationDatePicker(false)
     const newDate = new Date(selectedDate.nativeEvent.timestamp)
-    console.log(newDate)
     setCelebration(newDate)
     setHasPickAnCelebrationDate(true)
   }
+
+  const isValidDate = (dateString) =>{
+    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+        return false;
+
+    const parts = dateString.split("/");
+    const day = parseInt(parts[1], 10);
+    const month = parseInt(parts[0], 10);
+    const year = parseInt(parts[2], 10);
+
+    if(year < 1000 || year > 3000 || month === 0 || month > 12)
+        return false;
+
+    const monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+    if(year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
+        monthLength[1] = 29;
+
+    return day > 0 && day <= monthLength[month - 1];
+};
+
+const handleColorChange = (cellData)=>{
+  let color = theme.colors.secondary
+  switch (cellData) {
+    case 'Finished':
+      color = 'red'
+      break;
+    case 'Started':
+      color = theme.colors.primary
+      break;
+    case 'Canceled':
+      color = 'grey'
+      break;
+  
+    default:
+      break;
+  }
+  return color
+}
 
   return (
     <View>
@@ -179,7 +232,7 @@ const ManageGroup = ({ route, navigation }) => {
               <Table style={{marginBottom: 10}}>
                 <Row data={tableUserHead} style={styles.head} textStyle={styles.headText} />
                 {tableUserData.map((rowData, index) => (
-                  <TableWrapper key={index} style={{ flexDirection: 'row', marginBottom: 20 }}>
+                  <TableWrapper key={index} style={{ flexDirection: 'row', marginTop: 20 }}>
                     {rowData.map((cellData, cellIndex) => (
                       <Cell key={cellIndex} data={cellIndex === 2 ? deleteUserElement(tableUserData[index]) : cellData} textStyle={styles.text} />
                     ))}
@@ -196,7 +249,15 @@ const ManageGroup = ({ route, navigation }) => {
                 {tableData.map((rowData, index) => (
                   <TableWrapper key={index} style={{ flexDirection: 'row', paddingTop: 10 }}>
                     {rowData.map((cellData, cellIndex) => (
-                      <Cell key={cellIndex} data={cellIndex === 3 ? seeMoreElement(tableIndexes[index]) : cellData} textStyle={styles.text} />
+                      <Cell 
+                        key={cellIndex} 
+                        data={cellIndex === 3 ? seeMoreElement(tableIndexes[index]) : cellData} 
+                        textStyle={
+                          [styles.text, {
+                            color: cellIndex === 2 ? handleColorChange(cellData) : 'black', 
+                            fontWeight: cellIndex === 2 ? 'bold' : 'normal'
+                          }]} 
+                      />
                     ))}
                   </TableWrapper>
                 ))}
@@ -241,28 +302,43 @@ const ManageGroup = ({ route, navigation }) => {
                   {errors.locationName && <Text>This is required.</Text>}
                   <Controller
                     control={control}
-                    render={() => (
+                    render={({field: { onChange, onBlur, value }}) => (
                       <View>
-                        <TouchableOpacity
-                          style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
-                          onPress={() => showDateCelebrationPicker()}
-                        >
+                        {isWeb === true
+                        ? 
+                        <View>
                           <Input
                             label="Select celebration Date"
                             containerStyle={{ flex: 1 }}
-                            placeholder={celebration.toLocaleDateString()}
-                            editable={false}
+                            placeholder="Location name"
+                            value={value}
+                            onChangeText={onChange}
                           />
-                          <Ionicons
-                            name="calendar"
-                            color="white"
-                            style={{ backgroundColor: theme.colors.primary, padding: 5, borderRadius: 5 }}
-                            size={30}
-                          />
-                        </TouchableOpacity>
-                        {showCelebrationDatePicker && (
-                          <RNDateTimePicker testID="dateTimePicker" value={celebration} mode="date" is24Hour onChange={changeSelectedDate} />
-                        )}
+                        </View>
+                        : 
+                        <View>
+                          <TouchableOpacity
+                            style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+                            onPress={() => showDateCelebrationPicker()}
+                          >
+                            <Input
+                              label="Select celebration Date"
+                              containerStyle={{ flex: 1 }}
+                              placeholder={celebration.toLocaleDateString()}
+                              editable={false}
+                            /> 
+                            <Ionicons
+                              name="calendar"
+                              color="white"
+                              style={{ backgroundColor: theme.colors.primary, padding: 5, borderRadius: 5 }}
+                              size={30}
+                            />
+                          </TouchableOpacity>
+                          {showCelebrationDatePicker && (
+                            <DateTimePicker color={theme.colors.primary} testID="dateTimePicker" value={celebration} mode="date" is24Hour onChange={changeSelectedDate} />
+                          )}
+                        </View>
+                        }
                       </View>
                     )}
                     name="celebrationDate"
@@ -377,8 +453,8 @@ const styles = StyleSheet.create({
   datePickersStylesText: {
     fontWeight: 20,
   },
-  head: { height: 40, backgroundColor: theme.colors.primary },
-  text: { margin: 6, textAlign: 'center' },
+  head: { backgroundColor: theme.colors.primary },
+  text: { margin: 6, textAlign: 'center'},
   headText: { margin: 6, color: 'white', fontWeight: 'bold', alignSelf: 'center' },
   row: { flexDirection: 'row', backgroundColor: '#FFFF' },
   btn: { width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2 },

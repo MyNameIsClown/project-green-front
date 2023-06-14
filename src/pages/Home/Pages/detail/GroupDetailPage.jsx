@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Platform, ActivityIndicator, FlatList } from 'react-native'
-import { Button, Card } from '@rneui/base'
+import { View, Text, StyleSheet, ScrollView, Platform, ActivityIndicator, FlatList} from 'react-native'
+import { Button, Card} from '@rneui/base'
 import { theme } from '../../../../theme'
 import { groups } from '../../../../services/Groups'
 import { activity } from '../../../../services/ActivityService'
@@ -55,18 +55,38 @@ const GroupDetailPage = ({ route, data, navigation }) => {
   }
   const InvitationCard = ({ item }) => {
     return (
-      <Card containerStyle={{ marginHorizontal: 20, marginBottom: 20 }}>
-        {console.log(item.item)}
-        <Card.Title>{item.item.name}</Card.Title>
-        <Text>{item.item.celebrationDate}</Text>
-        <Text>{item.item.privacity.toString()}</Text>
-        <Button
-          title="Join"
-          buttonStyle={styles.subscribeButton}
-          titleStyle={styles.subscribeButtonText}
-          onPress={() => handleJoinActivity(item.item.id)}
-        />
+      <Card containerStyle={{flex:1, marginBottom: 10, borderRadius: 20, alignItems: 'center', justifyContent: 'space-evenly'}}>
+          <Card.Title>{item.item.name}</Card.Title>
+          <Text style={{fontWeight: 'bold'}}>Celebration date: </Text>
+          <Text>{new Date(item.item.celebrationDate.toString()).toLocaleDateString()}</Text>
+          
+          {item.item.privacity === false 
+            ? <Text style={{marginTop: 10, fontStyle: 'italic'}}>This activity is public</Text>
+            : <Text>This activity is private</Text>
+          }
+          
+          <Button
+            title="Join"
+            color={theme.colors.primary}
+            buttonStyle={styles.subscribeButton}
+            titleStyle={styles.subscribeButtonText}
+            onPress={() => handleJoinActivity(item.item.id)}
+          />
       </Card>
+    )
+  }
+  const MemberItem = ({ member }) => {
+    return (
+      <View style={styles.memberItem}>
+        <View style={styles.memeberInnerItem}>
+          <Text style={{fontWeight: 'bold'}}>Username: </Text>
+          <Text>{member.item.username}</Text>
+        </View>
+        <View style={styles.memeberInnerItem}>
+          <Text style={{fontWeight: 'bold'}}>Role: </Text>
+          <Text>{member.item.groupRole}</Text>
+        </View>
+      </View>
     )
   }
   const handleReloadData = async (index) => {
@@ -93,41 +113,48 @@ const GroupDetailPage = ({ route, data, navigation }) => {
           <Card containerStyle={styles.cardStyle}>
             <View style={styles.head}>
               <Card.Title style={styles.title}>{groupData.name}</Card.Title>
-              {groupData.currentUserIsRegistrated ? (
-                <Button
-                  title="Unsubscribe"
-                  buttonStyle={[styles.subscribeButton, { backgroundColor: theme.colors.secondary }]}
-                  titleStyle={styles.subscribeButtonText}
-                  onPress={() => handleUnsubscribe(groupData.id)}
-                />
-              ) : (
-                <Button
-                  title="Subscribe"
-                  buttonStyle={[styles.subscribeButton, { backgroundColor: theme.colors.primary }]}
-                  titleStyle={styles.subscribeButtonText}
-                  onPress={() => handleSubscribe(groupData.id)}
-                />
-              )}
+              {groupData.currentUserIsTheOwner === false &&
+                <View>
+                  {groupData.currentUserIsRegistrated ? (
+                    <Button
+                      title="Unsubscribe"
+                      buttonStyle={[styles.subscribeButton, { backgroundColor: theme.colors.secondary }]}
+                      titleStyle={styles.subscribeButtonText}
+                      onPress={() => handleUnsubscribe(groupData.id)}
+                    />
+                  ) : (
+                    <Button
+                      title="Subscribe"
+                      buttonStyle={[styles.subscribeButton, { backgroundColor: theme.colors.primary }]}
+                      titleStyle={styles.subscribeButtonText}
+                      onPress={() => handleSubscribe(groupData.id)}
+                    />
+                  )}
+                </View>
+              }
             </View>
 
             <Card.Divider />
             <Text style={styles.description}>{groupData.description}</Text>
-            <View style={styles.membersContainer}>
-              <Text style={styles.membersTitle}>Members:</Text>
-              {groupData.members.map((member, index) => (
-                <View key={index} style={styles.memberItem}>
-                  <Text style={styles.memberName}>{member.username}</Text>
-                  <Text style={styles.memberRole}>{member.groupRole}</Text>
-                </View>
-              ))}
+            <View style={styles.section}>
+              <Card.Title>Members</Card.Title>
+              <Card.Divider/>
+              <FlatList
+              data={groupData.members}
+              renderItem={(item)=><MemberItem member={item}/>}
+              keyExtractor={(item) => item.username}
+              />
             </View>
-            <FlatList
-              data={groupData.activities}
-              renderItem={(item) => <InvitationCard item={item} />}
-              keyExtractor={(item) => item.id}
-              numColumns={2}
-              contentContainerStyle={{ paddingVertical: 20, alignItems: 'center' }}
-            />
+            <View style={styles.section}>
+              <Card.Title>Activities</Card.Title>
+              <Card.Divider/>
+              <FlatList
+                data={groupData.activities}
+                renderItem={(item) => <InvitationCard item={item} />}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+              />
+            </View>
             <Text style={styles.location}>{groupData.locationName}</Text>
           </Card>
         </ScrollView>
@@ -144,7 +171,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   scrollContainer: {
     padding: 10,
@@ -161,30 +187,18 @@ const styles = StyleSheet.create({
   description: {
     marginBottom: 10,
   },
-  membersContainer: {
-    marginBottom: 10,
-  },
-  membersTitle: {
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
   memberItem: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 5,
+    justifyContent: 'space-evenly'
   },
-  memberName: {
-    marginRight: 5,
-  },
-  memberRole: {
-    fontStyle: 'italic',
+  memeberInnerItem:{
+    flexDirection: 'row'
   },
   subscribeButton: {
     borderWidth: 2,
     borderColor: 'white',
     borderRadius: 10,
-    width: 200,
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     marginVertical: 10,
   },
   subscribeButtonText: {
@@ -194,6 +208,9 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontStyle: 'italic',
   },
+  section:{
+    marginTop: 30
+  }
 })
 
 export default GroupDetailPage

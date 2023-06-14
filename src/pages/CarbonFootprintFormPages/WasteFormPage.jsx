@@ -52,8 +52,8 @@ const FoodFormPage = ({ onSubmit, handleBack, currentPage }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TitleComponent title="Emisiones por la produccion de residuos" />
-        <Pressable onPress={() => handleInfoContainer()} style={{ marginLeft: 15 }}>
+      <Text style={styles.titleStyle}>Emisiones por la produccion de residuos</Text>
+        <Pressable onPress={() => handleInfoContainer()} style={{ marginLeft: 15, flex: 1}}>
           <FontAwesome name="info-circle" color={theme.colors.primary} size={30} />
         </Pressable>
       </View>
@@ -108,7 +108,12 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 20
+  },
+  titleStyle:{
+    flex: 10,
+    fontSize: 20,
+    fontFamily: 'BrunoAce-Regular',
   },
 
   inputTitle: {

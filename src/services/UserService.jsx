@@ -5,4 +5,5 @@ export const user = {
   register: (data) => axios.post('/api/users/register', data),
   showAll: (data) => axios.get('/api/users', data),
   currentUser: () => axios.get('/api/users/currentUser'),
+  changePassword: (data) => axios.put('/api/users/changePassword', data)
 }

@@ -1,9 +1,12 @@
 import { Button, Card } from '@rneui/base'
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, Platform } from 'react-native'
 import { theme } from '../../../../theme'
 import { activity } from '../../../../services/ActivityService'
 import alert from '../../../../components/AlertComponent'
+
+const isWeb = Platform.OS === 'web'
+const activityStates = ['Started', 'Finished', 'Canceled']
 
 const ActivityDetailJoin = ({ route, navigation }) => {
   const data = route.params
@@ -54,25 +57,61 @@ const ActivityDetailJoin = ({ route, navigation }) => {
         <ActivityIndicator size="large" color={theme.colors.primary} />
       ) : (
         <View>
-          <Card>
+          <Card containerStyle={styles.cardStyle}>
             <View style={styles.head}>
-              <Card.Title>{data.title}</Card.Title>
+              <Card.Title style={styles.headText}>{data.title}</Card.Title>
               {data.hasSuscribeToGroup && (
-                <View>
+                <View style={styles.headButtons}>
                   {data.hasJoined ? (
-                    <Button title="Delete Join" color={theme.colors.secondary} onPress={() => handleDeleteJoin(data.id)} />
+                    <Button 
+                    title="Delete Join" 
+                    color={theme.colors.secondary} 
+                    onPress={() => handleDeleteJoin(data.id)}
+                    containerStyle={styles.button}
+                    disabled={data.started || data.finished}
+                    />
                   ) : (
-                    <Button title="Join" color={theme.colors.primary} onPress={() => handleJoin(data.id)} />
+                    <Button 
+                    title="Join" 
+                    color={theme.colors.primary} 
+                    onPress={() => handleJoin(data.id)} 
+                    containerStyle={styles.button}
+                    disabled={data.started || data.finished}
+                    />
                   )}
                 </View>
               )}
             </View>
             <Card.Divider />
-            <Text>Description: {data.description}</Text>
-            <Text>Type: {data.type}</Text>
-            <Text>Location Name: {data.locationName}</Text>
-            <Text>Celebration Date: {new Date(data.celebrationDate).toLocaleString()}</Text>
-            <Text>Last time to sign up: {new Date(data.lastTimeToSignUp).toLocaleString()}</Text>
+            <Text style={[styles.label, {marginTop: 10}]}>Description: </Text>
+            <Text>{data.description}</Text>
+            <View style={styles.section}>
+              <Text style={styles.label}>State: </Text>
+              <Text>
+                {data.started && activityStates[0]}
+                {data.finished && activityStates[1]}
+                {data.canceled && activityStates[2]}
+                {!data.started && !data.finished && !data.canceled
+                  && "Waiting for celebration date"
+                }
+              </Text>
+            </View>
+            <View style={styles.section}>
+              <Text style={styles.label}>Type: </Text>
+              <Text>{data.type}</Text>
+            </View>
+            <View style={styles.section}>
+              <Text style={styles.label}>Location: </Text>
+              <Text>{data.locationName}</Text>
+            </View>
+            <View style={styles.section}>
+              <Text style={styles.label}>Celebration date: </Text>
+              <Text>{new Date(data.celebrationDate.toString()).toLocaleDateString()}</Text>
+            </View>
+            <View style={styles.section}>
+              <Text style={styles.label}>Last date to sign up: </Text>
+              <Text>{new Date(data.lastTimeToSignUp.toString()).toLocaleDateString()}</Text>
+            </View>
           </Card>
         </View>
       )}
@@ -80,7 +119,37 @@ const ActivityDetailJoin = ({ route, navigation }) => {
   )
 }
 const styles = StyleSheet.create({
-  headText: { margin: 6, color: 'white', fontWeight: 'bold' },
-  head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  container: {
+    flex: 1,
+    padding: 10
+  },
+  cardStyle: {
+    borderRadius: 20,
+    width: isWeb ? '70%' : '100%',
+    alignSelf: 'center',
+  },
+  head: { 
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  headButtons:{
+    flex: 1,
+  },
+  button:{
+    borderRadius: 20,
+    margin: 10
+  },
+  headText:{
+    fontSize: 20,
+    flex: 2
+  },
+  section:{
+    marginTop: 10,
+    flexDirection: 'row'
+  },
+  label:{
+    fontWeight: 'bold'
+  }
 })
 export default ActivityDetailJoin
