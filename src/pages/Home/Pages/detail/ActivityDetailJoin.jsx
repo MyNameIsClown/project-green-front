@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, ActivityIndicator, Platform } from 'react-nativ
 import { theme } from '../../../../theme'
 import { activity } from '../../../../services/ActivityService'
 import alert from '../../../../components/AlertComponent'
+import { Ionicons } from '@expo/vector-icons'
 
 const isWeb = Platform.OS === 'web'
 const activityStates = ['Started', 'Finished', 'Canceled']
@@ -60,7 +61,7 @@ const ActivityDetailJoin = ({ route, navigation }) => {
           <Card containerStyle={styles.cardStyle}>
             <View style={styles.head}>
               <Card.Title style={styles.headText}>{data.title}</Card.Title>
-              {data.hasSuscribeToGroup && (
+              {data.hasSuscribeToGroup === true ? (
                 <View style={styles.headButtons}>
                   {data.hasJoined ? (
                     <Button 
@@ -79,8 +80,14 @@ const ActivityDetailJoin = ({ route, navigation }) => {
                     disabled={data.started || data.finished}
                     />
                   )}
-                </View>
-              )}
+                </View>) :
+                  (<Ionicons
+                    name='information-circle'
+                    size={30}
+                    color={theme.colors.primary}
+                    onPress={()=>alert("Info", "You have to suscribe to join to this activity")}
+                  />
+                )}
             </View>
             <Card.Divider />
             <Text style={[styles.label, {marginTop: 10}]}>Description: </Text>

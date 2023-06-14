@@ -114,7 +114,7 @@ const GroupDetailPage = ({ route, data, navigation }) => {
             <View style={styles.head}>
               <Card.Title style={styles.title}>{groupData.name}</Card.Title>
               {groupData.currentUserIsTheOwner === false &&
-                <View>
+                <View style={{flex: 1}}>
                   {groupData.currentUserIsRegistrated ? (
                     <Button
                       title="Unsubscribe"
@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 20,
+    flex: 1.5
   },
   description: {
     marginBottom: 10,
