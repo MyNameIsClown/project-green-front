@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
-import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, Image, ActivityIndicator, Platform, TouchableOpacity } from 'react-native'
 import { user } from '../services/UserService'
 import { carbonFootprint } from '../services/CarbonFootprintService'
 import * as SecureStore from '../util/SecureStore'
@@ -10,6 +10,8 @@ import PropTypes from 'prop-types'
 import { useFonts } from 'expo-font'
 import alert from '../components/AlertComponent'
 import { theme } from '../theme'
+
+const isWeb = Platform.OS === 'web'
 
 /* LOGIN */
 export default function LogInPage(props) {
@@ -37,11 +39,9 @@ export default function LogInPage(props) {
       const { status, data } = await user.logIn(source)
       if (status === 201) {
         SecureStore.save('token', data.token)
-        console.log(data)
         if (data.carbonFootprintIsCalculated) {
           const { status, data } = await carbonFootprint.getHomePageInfo()
           if (status === 200) {
-            console.log(data)
             props.navigation.navigate('HomePaginator', { data })
           }
         } else {
@@ -56,16 +56,24 @@ export default function LogInPage(props) {
     }
   }
 
+  const handleNavigateToLanding = ()=>{
+    if(isWeb){
+      props.navigation.navigate('Landing')
+    }
+  }
+
   return (
     <View style={styles.formContainer}>
       {loading ? (
         <ActivityIndicator size="large" color={theme.colors.primary} />
       ) : (
         <View style={styles.formContainer}>
-          <View style={(styles.formContainer, [{ flexDirection: 'row' }])}>
-            <Image source={require('../../assets/favicon.png')} style={styles.logo} />
-            <Text style={{ fontFamily: 'BrunoAce', fontSize: 40, textTransform: 'uppercase' }}>Coper</Text>
-          </View>
+          <TouchableOpacity onPress={()=>handleNavigateToLanding()}>
+            <View style={(styles.formContainer, [{ flexDirection: 'row' }])}>
+              <Image source={require('../../assets/favicon.png')} style={styles.logo} />
+              <Text style={{ fontFamily: 'BrunoAce', fontSize: 40, textTransform: 'uppercase' }}>Coper</Text>
+            </View>
+          </TouchableOpacity>
           <Controller
             control={control}
             rules={{
@@ -107,7 +115,7 @@ export default function LogInPage(props) {
             <Text
               style={{ fontWeight: 'bold', marginTop: 20, textDecorationLine: 'underline' }}
               onPress={() => {
-                props.navigation.navigate('Register')
+                props.navigation.navigate('TermsAndConditions')
               }}
             >
               terms & conditions

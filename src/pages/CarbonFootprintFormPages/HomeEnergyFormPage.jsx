@@ -8,6 +8,7 @@ import TitleComponent from '../../components/TitleComponent'
 import { EnergyCalcInfo } from '../CarbonFootprintIntroductionCalc'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { theme } from '../../theme'
+import { useFonts } from 'expo-font'
 
 const energyTypes = [
   { label: 'Corriente electrica', value: 'electricity' },
@@ -22,6 +23,13 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
   const { control } = useForm()
   const [energyConsumptionData, setEnergyConsumptionData] = useState([])
   const [showInfo, setShowInfo] = useState(false)
+
+  const [loaded] = useFonts({
+    BrunoAce: require('../../../assets/fonts/BrunoAce-Regular.ttf'),
+  })
+  if (!loaded) {
+    return null
+  }
 
   const handleAddEnergyConsumption = () => {
     setEnergyConsumptionData([...energyConsumptionData, { energyType: 'electricity', consume: 0 }])
@@ -65,8 +73,8 @@ const HomeEnergyPage = ({ onSubmit, handleBack, currentPage }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TitleComponent title="Emisiones por el consumo energetico" />
-        <Pressable onPress={() => handleInfoContainer()} style={{ marginLeft: 15 }}>
+        <Text style={styles.titleStyle}>Emisiones por el consumo energetico</Text>
+        <Pressable onPress={() => handleInfoContainer()} style={{ marginLeft: 15, flex: 1 }}>
           <FontAwesome name="info-circle" color={theme.colors.primary} size={30} />
         </Pressable>
       </View>
@@ -150,7 +158,12 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 20
+  },
+  titleStyle:{
+    flex: 10,
+    fontSize: 20,
+    fontFamily: 'BrunoAce-Regular',
   },
   inputTitle: {
     fontWeight: 'bold',

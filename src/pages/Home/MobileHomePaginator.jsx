@@ -13,7 +13,7 @@ export const MobileHomePaginator = ({ data, navigation }) => {
   const carbonFootprintData = { totalCo2Emitted, totalGreenScore }
   return (
     <>
-      <TabView value={index} onChange={setIndex} animationType="timing" disableTransition containerStyle={styles.container}>
+      <TabView value={index} onChange={setIndex} disableTransition containerStyle={styles.container}>
         <TabView.Item style={styles.pageContainer}>
           <HomePage data={carbonFootprintData} navigation={navigation} />
         </TabView.Item>
@@ -21,15 +21,16 @@ export const MobileHomePaginator = ({ data, navigation }) => {
           <HistoryPage navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={styles.pageContainer}>
-          <CommunityPage />
+          <CommunityPage navigation={navigation} />
         </TabView.Item>
         <TabView.Item style={styles.pageContainer}>
-          <UserConfigPage data={user} />
+          <UserConfigPage data={user} navigation={navigation} />
         </TabView.Item>
       </TabView>
       <Tab
         value={index}
         onChange={(e) => setIndex(e)}
+        disableIndicator
         indicatorStyle={{
           backgroundColor: 'white',
           height: 3,

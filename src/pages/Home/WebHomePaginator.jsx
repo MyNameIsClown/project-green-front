@@ -8,6 +8,7 @@ import { theme } from '../../theme'
 import HistoryPage from './Pages/HistoryPage'
 import { TouchableOpacity } from 'react-native-web'
 
+
 export const WebHomePaginator = ({ data, navigation }) => {
   const [index, setIndex] = useState(0)
   const { user, totalCo2Emitted, totalGreenScore } = data
@@ -24,9 +25,9 @@ export const WebHomePaginator = ({ data, navigation }) => {
       case 1:
         return <HistoryPage navigation={navigation} />
       case 2:
-        return <CommunityPage data={data} />
+        return <CommunityPage navigation={navigation} />
       case 3:
-        return <UserConfigPage data={user} />
+        return <UserConfigPage data={user} navigation={navigation} />
       default:
         return null
     }
@@ -36,7 +37,7 @@ export const WebHomePaginator = ({ data, navigation }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Login')
+          navigation.navigate('Landing')
         }}
         style={(styles.headerLogoContainer, [{ flexDirection: 'row', backgroundColor: '0000' }])}
       >
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pageContainer: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#EEEEEE',
   },
   headerLogoContainer: {

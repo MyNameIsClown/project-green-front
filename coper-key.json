@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "pc-api-8858420298940371006-350",
+  "private_key_id": "4d5e727cb908e904cafd78d9cda265ba4e23df40",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDYisRj1R4I9ZYJ\n3GbXgGvc7nYu97bPmDMrvPZAHjaZ3uACOwCkksk4GeL6nLkRqmpQO9ejcg2Sc2f7\nc5GLbG56SqG+Nt3ncCjIGzTD7TIY6siRlM6PiQ31ZWKpatANwe8rqAnhdBG042ck\neRUt22/oC7OEJKDouu+Hv+iVCOm8rI4lZ/VIhhgv4avOgHCVpMW4n4H3Z8h0fiSB\nLvb7EvuJw52i7Ef2aVVvpN9SbrDzQbj9uuZY6wE3mtrzm/n+6TC8gWiuAV796Y0X\n4QsKiLuEbC6Vme5LP2LIfrY+/PAUqucfjkY/x2ZxptNSToKlkrppsGNFr7YdYExR\nOLFBj3TJAgMBAAECggEAEqqMoRv2D7jm1wEFKvq+oY/7R1Nycmz47UJn2lFYbNVr\n6zlNlgIyvwepO6f+opWVfkbYUPY0Eg2pdyEoWNPPJrLQBEL7yDdwhoZk2yZTYRc9\nFKKWl0Qt3DtiAL9swaDX9oQQ3PrJy3VmVtwqrZYqzH6UuhWDuughXYr3GEDJUEqJ\ngdv/Ecy0k00QEshwG5izMZdfJn2qdsCf6cF+44/ww+Mfdu/AZfgHap38eh0ILwsl\nPWqxdtAYZa9K31En0oBLcGpTAOTR7yFIBbo5cFlDKwngwuxC54gRX8e492I3mTdH\n93yVoIChBX6PiOKBxUJzRFppTM3N8a4SLbni6+KA4QKBgQD1qw4GVvKE9RcMwYWi\n+OYJ9dsruhzNP2K+GloggiJbUacakr9c3q9orGDaevYqJgb+D8wGo+2e1OK8d0wF\nAsVti2Yi9N3YHp78EZv5Dx2QDVSlVigMDsJAlvqqQnx7IB03G3RXHMGnVoxWwpRa\nl7HXmn3dN9p8yW9aa4ZQYdDAIQKBgQDhpiF/QIZjdkLF+6nNZrF6IE4Q1bS/eZik\neKfShZFddhzY4vm8tW44bogSXRYrNLDTFzfGEHGOX6EUYZBk1leGpE062V8IbHcc\nEoiDglzMcBgpoDDZEFM+jla0M4FtH+E76FIv7tYqOW6rMVoGiClghXk4ExiUKAZc\nz0Hjomi/qQKBgQDjOLtYEcNuRmJzYesAucXLIKL+5r0M+buSqT0DJFoyrGsqoOBu\nPWlwHz/V1DUq9tEw29uRqL13UuAEATNGzzFcCLsHSgSGiIv0CTWCPwDQ5AOOiQmx\nXVU9+GcQYz5Pg3yCI9qPWAGljN9wv7gHspbDHBmeKrLjCEz+DMXGQzKZAQKBgFM2\nWJP8z5JOQkGQlQXSIRDQaPl8VbNmvAurEvhnmTvGGs1ApqgYoBTfbf6XpV05iRvP\nLBo2ZioCyfwiHoWRJaXZYUGad5k7ppELpJwaru4VSFPRZzIk+w3On9rEQ65iW0Uk\nX2qdwQzBMTagdHqEK/4UOqebIy0/tVj0dW/krIxBAoGAeQnZEfK6S/AnwItVp0dM\nn3Q1sMOZiFh3+8s/F7qfFtmvu0GbtEFFa2YDBrRLbTR+YitACEcuO1+y51XvzPzX\njX2k7LdRp3E0ZlT/5zI2WfllDm7bFdIVTFAamgncankEPoJy6H/hsHemGde/5yfL\nrnhv+Vbae1F2PX7dm0HlvWM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "expo-project-green@pc-api-8858420298940371006-350.iam.gserviceaccount.com",
+  "client_id": "101970818471783300700",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/expo-project-green%40pc-api-8858420298940371006-350.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
